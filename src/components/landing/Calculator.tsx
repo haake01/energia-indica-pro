@@ -9,14 +9,13 @@ const Calculator = () => {
   const [clientCount, setClientCount] = useState(5);
   const [avgBill, setAvgBill] = useState(500);
   
-  // Simplified commission calculation - in real app would be more complex
+  // Atualizado para calcular 10% da fatura
   const estimatedCommission = () => {
-    const baseCommission = avgBill >= 500 ? 100 : 50;
-    return clientCount * baseCommission;
+    return clientCount * (avgBill * 0.1);
   };
 
   return (
-    <section className="py-20 bg-white border-t border-b border-gray-100">
+    <section className="py-20 bg-white/90 backdrop-blur-sm border-t border-b border-gray-100">
       <div className="container px-4 md:px-6">
         <div className="grid gap-8 lg:grid-cols-2 lg:gap-12 items-center">
           <div>
@@ -74,13 +73,13 @@ const Calculator = () => {
               <h3 className="text-2xl font-bold">Seu potencial de ganhos:</h3>
               <div className="space-y-2">
                 <p className="text-brand-lime text-4xl md:text-5xl font-bold">
-                  R$ {estimatedCommission()},00
+                  R$ {estimatedCommission().toFixed(2).replace('.', ',')}
                 </p>
                 <p className="text-white/80 text-xl">por mês</p>
               </div>
               <div className="space-y-2">
                 <p className="text-2xl font-bold">
-                  R$ {estimatedCommission() * 12},00
+                  R$ {(estimatedCommission() * 12).toFixed(2).replace('.', ',')}
                 </p>
                 <p className="text-white/80">por ano</p>
               </div>

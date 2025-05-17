@@ -5,7 +5,7 @@ import { ArrowRight } from "lucide-react";
 
 const HeroSection = () => {
   return (
-    <section className="py-16 md:py-24 bg-gradient-to-br from-brand-blue via-brand-blue/90 to-brand-blue/80 text-white">
+    <section className="py-16 md:py-24 bg-gradient-to-br from-brand-blue/90 via-brand-blue/80 to-brand-blue/70 text-white relative">
       <div className="container px-4 md:px-6">
         <div className="grid gap-6 lg:grid-cols-2 lg:gap-12 items-center">
           <div className="flex flex-col justify-center space-y-6 animate-fade-in">
@@ -37,10 +37,10 @@ const HeroSection = () => {
               <div className="text-center space-y-4">
                 <h3 className="text-2xl font-bold">Comissões atrativas</h3>
                 <p className="text-xl md:text-3xl font-bold text-white">
-                  Ganhe até <span className="text-brand-orange">R$ 500,00</span>
+                  Ganhe <span className="text-brand-orange">10%</span>
                 </p>
                 <p className="text-base md:text-lg">
-                  por cada cliente convertido
+                  sobre a fatura do seu INDICADO
                 </p>
               </div>
             </div>

@@ -3,14 +3,17 @@ import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
-    <footer id="contato" className="bg-gray-900 text-white">
+    <footer id="contato" className="bg-gray-900/90 backdrop-blur-sm text-white">
       <div className="container px-4 md:px-6 py-16">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div className="space-y-4">
             <h3 className="text-xl font-bold text-white">LEX+ENERGIA</h3>
             <p className="text-gray-400">
-              Programa oficial de indicações da Alexandria Energia. 
+              Programa Exclusivo da + ENERGIA. 
               Indique e ganhe comissões atrativas.
+            </p>
+            <p className="text-gray-400">
+              CNPJ 32.372.756/0001-58
             </p>
           </div>
           
@@ -45,14 +48,14 @@ const Footer = () => {
             <ul className="space-y-3">
               <li className="text-gray-400">
                 <span className="block">Email:</span>
-                <a href="mailto:contato@lexenergia.com.br" className="hover:text-white transition-colors">
-                  contato@lexenergia.com.br
+                <a href="mailto:contato@portabilidade-energia.online" className="hover:text-white transition-colors">
+                  contato@portabilidade-energia.online
                 </a>
               </li>
               <li className="text-gray-400">
                 <span className="block">WhatsApp:</span>
-                <a href="tel:+5511999999999" className="hover:text-white transition-colors">
-                  (11) 99999-9999
+                <a href="tel:+5511954707777" className="hover:text-white transition-colors">
+                  (11) 95470-7777
                 </a>
               </li>
             </ul>
@@ -81,7 +84,7 @@ const Footer = () => {
         </div>
         
         <div className="border-t border-gray-800 mt-12 pt-8 text-center text-gray-400">
-          <p>© {new Date().getFullYear()} LEX+ENERGIA / Alexandria Energia. Todos os direitos reservados.</p>
+          <p>© {new Date().getFullYear()} LEX+ENERGIA / + ENERGIA. Todos os direitos reservados.</p>
         </div>
       </div>
     </footer>
