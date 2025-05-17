@@ -9,7 +9,7 @@ const benefitItems = [
   },
   {
     title: "Pagamento Rápido",
-    description: "Receba suas comissões em prazos justos e transparentes",
+    description: "Receba suas comissões antes do INDICADO começar a consumir a energia contratada",
     icon: Clock4,
   },
   {
@@ -29,7 +29,7 @@ const benefitItems = [
   },
   {
     title: "Produto de Qualidade",
-    description: "Indique um serviço que realmente entrega economia",
+    description: "Indique Energia Limpa e Sustentável, com Desconto que estará sempre em bandeira verde e sem qualquer investimento ou obra",
     icon: BadgeCheck,
   },
 ];

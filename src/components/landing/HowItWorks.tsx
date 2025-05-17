@@ -10,7 +10,7 @@ const steps = [
   },
   {
     id: 2,
-    title: "Indique clientes",
+    title: "Indique conhecidos que queiram economizar no gasto de energia",
     description: "Cadastre pessoas ou empresas que pagam mais de R$ 300 na conta de luz",
     icon: Send,
   },

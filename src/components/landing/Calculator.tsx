@@ -46,7 +46,7 @@ const Calculator = () => {
                 </div>
                 
                 <div className="space-y-2">
-                  <Label htmlFor="avg-bill">Valor médio da fatura (R$):</Label>
+                  <Label htmlFor="avg-bill">Valor médio da parcela de energia da fatura da concessionária atual (R$):</Label>
                   <Input 
                     id="avg-bill"
                     type="range" 
@@ -75,7 +75,6 @@ const Calculator = () => {
                 <p className="text-brand-lime text-4xl md:text-5xl font-bold">
                   R$ {estimatedCommission().toFixed(2).replace('.', ',')}
                 </p>
-                <p className="text-white/80 text-xl">por mês</p>
               </div>
               <div className="space-y-2">
                 <p className="text-2xl font-bold">

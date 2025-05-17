@@ -81,32 +81,32 @@ const beneficiosFaqs = [
 
 const FAQ = () => {
   return (
-    <section id="faq" className="py-20 bg-gray-50">
+    <section id="faq" className="py-20 bg-brand-lime">
       <div className="container px-4 md:px-6">
         <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold text-brand-lime mb-4">Perguntas Frequentes</h2>
-          <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+          <h2 className="text-3xl font-bold text-white mb-4">Perguntas Frequentes</h2>
+          <p className="text-lg text-white max-w-3xl mx-auto">
             Tire suas principais dúvidas sobre o programa de indicação da LEX+ENERGIA
           </p>
         </div>
         
-        <div className="max-w-4xl mx-auto bg-white rounded-2xl shadow p-8">
+        <div className="max-w-4xl mx-auto bg-brand-lime rounded-2xl shadow p-8">
           <Tabs defaultValue="programa" className="w-full">
-            <TabsList className="grid grid-cols-2 md:grid-cols-4 mb-8">
-              <TabsTrigger value="programa" className="data-[state=active]:bg-brand-lime data-[state=active]:text-white">Sobre o Programa</TabsTrigger>
-              <TabsTrigger value="indicacoes" className="data-[state=active]:bg-brand-lime data-[state=active]:text-white">Indicações</TabsTrigger>
-              <TabsTrigger value="comissoes" className="data-[state=active]:bg-brand-lime data-[state=active]:text-white">Comissões</TabsTrigger>
-              <TabsTrigger value="beneficios" className="data-[state=active]:bg-brand-lime data-[state=active]:text-white">Benefícios aos Indicados</TabsTrigger>
+            <TabsList className="grid grid-cols-2 md:grid-cols-4 mb-8 bg-white/20">
+              <TabsTrigger value="programa" className="data-[state=active]:bg-white data-[state=active]:text-brand-lime text-white">Sobre o Programa</TabsTrigger>
+              <TabsTrigger value="indicacoes" className="data-[state=active]:bg-white data-[state=active]:text-brand-lime text-white">Indicações</TabsTrigger>
+              <TabsTrigger value="comissoes" className="data-[state=active]:bg-white data-[state=active]:text-brand-lime text-white">Comissões</TabsTrigger>
+              <TabsTrigger value="beneficios" className="data-[state=active]:bg-white data-[state=active]:text-brand-lime text-white">Benefícios aos Indicados</TabsTrigger>
             </TabsList>
             
             <TabsContent value="programa">
               <Accordion type="single" collapsible className="w-full">
                 {programaFaqs.map((faq, index) => (
                   <AccordionItem key={index} value={`programa-${index}`}>
-                    <AccordionTrigger className="text-left font-medium text-gray-800">
+                    <AccordionTrigger className="text-left font-medium text-white">
                       {faq.question}
                     </AccordionTrigger>
-                    <AccordionContent className="text-gray-600">
+                    <AccordionContent className="text-white">
                       {faq.answer}
                     </AccordionContent>
                   </AccordionItem>
@@ -118,10 +118,10 @@ const FAQ = () => {
               <Accordion type="single" collapsible className="w-full">
                 {indicacoesFaqs.map((faq, index) => (
                   <AccordionItem key={index} value={`indicacoes-${index}`}>
-                    <AccordionTrigger className="text-left font-medium text-gray-800">
+                    <AccordionTrigger className="text-left font-medium text-white">
                       {faq.question}
                     </AccordionTrigger>
-                    <AccordionContent className="text-gray-600">
+                    <AccordionContent className="text-white">
                       {faq.answer}
                     </AccordionContent>
                   </AccordionItem>
@@ -133,10 +133,10 @@ const FAQ = () => {
               <Accordion type="single" collapsible className="w-full">
                 {comissoesFaqs.map((faq, index) => (
                   <AccordionItem key={index} value={`comissoes-${index}`}>
-                    <AccordionTrigger className="text-left font-medium text-gray-800">
+                    <AccordionTrigger className="text-left font-medium text-white">
                       {faq.question}
                     </AccordionTrigger>
-                    <AccordionContent className="text-gray-600">
+                    <AccordionContent className="text-white">
                       {faq.answer}
                     </AccordionContent>
                   </AccordionItem>
@@ -148,10 +148,10 @@ const FAQ = () => {
               <Accordion type="single" collapsible className="w-full">
                 {beneficiosFaqs.map((faq, index) => (
                   <AccordionItem key={index} value={`beneficios-${index}`}>
-                    <AccordionTrigger className="text-left font-medium text-gray-800">
+                    <AccordionTrigger className="text-left font-medium text-white">
                       {faq.question}
                     </AccordionTrigger>
-                    <AccordionContent className="text-gray-600">
+                    <AccordionContent className="text-white">
                       {faq.answer}
                     </AccordionContent>
                   </AccordionItem>
@@ -161,18 +161,18 @@ const FAQ = () => {
           </Tabs>
           
           <div className="mt-8 flex flex-col md:flex-row items-center justify-center gap-4">
-            <div className="flex items-center gap-2 text-brand-blue">
+            <div className="flex items-center gap-2 text-white">
               <BookOpen size={20} />
               <span>Quer conhecer todos os detalhes?</span>
             </div>
             <div className="flex gap-4">
               <Link to="/perguntas-frequentes">
-                <Button variant="outline" className="border-brand-lime bg-brand-lime text-white hover:bg-brand-lime/80 rounded-full">
+                <Button variant="outline" className="border-white bg-white text-brand-lime hover:bg-white/80 rounded-full">
                   Ver todas as perguntas
                 </Button>
               </Link>
               <Link to="/regulamento">
-                <Button variant="outline" className="border-brand-orange text-brand-orange hover:bg-brand-orange hover:text-white rounded-full">
+                <Button variant="outline" className="border-white text-white hover:bg-white/20 rounded-full">
                   Ver regulamento
                 </Button>
               </Link>

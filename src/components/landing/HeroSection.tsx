@@ -18,7 +18,7 @@ const HeroSection = () => {
                 Um programa simples e lucrativo para todos.
               </p>
             </div>
-            <div className="flex flex-col md:flex-row gap-4 min-[400px]:flex-row">
+            <div className="flex flex-col items-center md:flex-row md:justify-center gap-4 min-[400px]:flex-row">
               <Link to="/cadastro">
                 <Button className="bg-brand-orange text-white hover:bg-brand-orange-light text-lg px-8 py-6 rounded-full group">
                   Quero ser indicador
@@ -35,12 +35,12 @@ const HeroSection = () => {
           <div className="flex items-center justify-center">
             <div className="w-full h-auto bg-white/10 border border-white/20 backdrop-blur-sm p-8 rounded-2xl shadow-lg transform transition-transform hover:scale-105">
               <div className="text-center space-y-4">
-                <h3 className="text-2xl font-bold">Comissões atrativas</h3>
+                <h3 className="text-2xl font-bold">Comissão atrativa</h3>
                 <p className="text-xl md:text-3xl font-bold text-white">
                   Ganhe <span className="text-brand-orange">10%</span>
                 </p>
                 <p className="text-base md:text-lg">
-                  sobre a fatura do seu INDICADO
+                  sobre o valor da parcela de ENERGIA da fatura do seu INDICADO
                 </p>
               </div>
             </div>
