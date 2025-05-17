@@ -83,7 +83,7 @@ const FAQ = () => {
     <section id="faq" className="py-20 bg-gray-50">
       <div className="container px-4 md:px-6">
         <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold text-brand-blue mb-4">Perguntas Frequentes</h2>
+          <h2 className="text-3xl font-bold text-brand-lime mb-4">Perguntas Frequentes</h2>
           <p className="text-lg text-gray-600 max-w-3xl mx-auto">
             Tire suas principais dúvidas sobre o programa de indicação da LEX+ENERGIA
           </p>
@@ -92,10 +92,10 @@ const FAQ = () => {
         <div className="max-w-4xl mx-auto bg-white rounded-2xl shadow p-8">
           <Tabs defaultValue="programa" className="w-full">
             <TabsList className="grid grid-cols-2 md:grid-cols-4 mb-8">
-              <TabsTrigger value="programa" className="data-[state=active]:bg-brand-blue data-[state=active]:text-white">Sobre o Programa</TabsTrigger>
-              <TabsTrigger value="indicacoes" className="data-[state=active]:bg-brand-blue data-[state=active]:text-white">Indicações</TabsTrigger>
-              <TabsTrigger value="comissoes" className="data-[state=active]:bg-brand-blue data-[state=active]:text-white">Comissões</TabsTrigger>
-              <TabsTrigger value="beneficios" className="data-[state=active]:bg-brand-blue data-[state=active]:text-white">Benefícios aos Indicados</TabsTrigger>
+              <TabsTrigger value="programa" className="data-[state=active]:bg-brand-lime data-[state=active]:text-white">Sobre o Programa</TabsTrigger>
+              <TabsTrigger value="indicacoes" className="data-[state=active]:bg-brand-lime data-[state=active]:text-white">Indicações</TabsTrigger>
+              <TabsTrigger value="comissoes" className="data-[state=active]:bg-brand-lime data-[state=active]:text-white">Comissões</TabsTrigger>
+              <TabsTrigger value="beneficios" className="data-[state=active]:bg-brand-lime data-[state=active]:text-white">Benefícios aos Indicados</TabsTrigger>
             </TabsList>
             
             <TabsContent value="programa">
@@ -160,8 +160,8 @@ const FAQ = () => {
           </Tabs>
           
           <div className="mt-8 text-center">
-            <Link to="/faq">
-              <Button variant="outline" className="border-brand-blue text-brand-blue hover:bg-brand-blue/10 rounded-full">
+            <Link to="/perguntas-frequentes">
+              <Button variant="outline" className="border-brand-lime bg-brand-lime text-white hover:bg-brand-lime/80 rounded-full">
                 Ver todas as perguntas
               </Button>
             </Link>

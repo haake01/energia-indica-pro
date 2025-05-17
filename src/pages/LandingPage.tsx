@@ -11,17 +11,27 @@ import Footer from "@/components/landing/Footer";
 
 const LandingPage = () => {
   return (
-    <div className="flex min-h-screen flex-col bg-white/5 backdrop-blur-sm">
-      <Header />
-      <main className="flex-1">
-        <HeroSection />
-        <HowItWorks />
-        <Benefits />
-        <Calculator />
-        <FAQ />
-        <CallToAction />
-      </main>
-      <Footer />
+    <div 
+      className="flex min-h-screen flex-col" 
+      style={{
+        backgroundImage: "url('/lovable-uploads/d87ff5a8-c42e-4feb-b4aa-8b5c7606698a.png')",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundAttachment: "fixed",
+      }}
+    >
+      <div className="flex min-h-screen flex-col bg-brand-blue/50 backdrop-blur-sm">
+        <Header />
+        <main className="flex-1">
+          <HeroSection />
+          <HowItWorks />
+          <Benefits />
+          <Calculator />
+          <FAQ />
+          <CallToAction />
+        </main>
+        <Footer />
+      </div>
     </div>
   );
 };
