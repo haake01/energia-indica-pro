@@ -1,7 +1,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-import { ShieldLock } from "lucide-react";
+import { ShieldCheck } from "lucide-react";
 
 const Header = () => {
   return (
@@ -41,7 +41,7 @@ const Header = () => {
           </Link>
           <Link to="/gestor/painel" className="hidden md:inline-flex">
             <Button variant="outline" className="bg-gray-800 text-white hover:bg-gray-700 border-gray-800 rounded-full flex items-center gap-2">
-              <ShieldLock size={18} />
+              <ShieldCheck size={18} />
               <span>Área Restrita</span>
             </Button>
           </Link>

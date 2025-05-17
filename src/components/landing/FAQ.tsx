@@ -1,4 +1,3 @@
-
 import React from "react";
 import {
   Accordion,
@@ -12,31 +11,31 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const programaFaqs = [
   {
-    question: "O que é o programa Indique e Ganhe?",
-    answer: "O programa Indique e Ganhe é uma iniciativa da LEX+ENERGIA que permite que indicadores recebam comissões por indicarem novos clientes para economia de energia elétrica."
+    question: "O que é o programa Indique e Ganhe da LEX +ENERGIA?",
+    answer: "O programa Indique e Ganhe é uma iniciativa da LEX+ENERGIA que permite que os indicadores recebam comissões para indicar novos clientes para economia de energia elétrica, e receber comissões pelos contratos assinados pelos seus INDICADOS com a ALEXANDRIA ENERGIA."
+  },
+  {
+    question: "Existe algum Regulamento?",
+    answer: "Sim, você ao preencher seus dados como INDICADOR, estará aderindo irrestritamente a todas as regras e condições estipuladas no REGULAMENTO disponível nesta plataforma."
   },
   {
     question: "Quem pode participar como indicador?",
-    answer: "Qualquer pessoa física com bom networking pode se cadastrar e participar como indicador. Não há requisitos específicos além de completar o cadastro com dados válidos e ter uma chave PIX para recebimento das comissões."
-  },
-  {
-    question: "Existe algum custo para participar do programa?",
-    answer: "Não há nenhum custo para participar. O cadastro é totalmente gratuito e não cobramos taxas de adesão ou mensalidades."
+    answer: "Qualquer pessoa física com networking aderente ao perfil de consumo de energia pode se cadastrar e participar como INDICADOR. Não há requisitos específicos além de preencher o cadastro com dados válidos e ter uma chave PIX para coleta de comissões."
   }
 ];
 
 const indicacoesFaqs = [
   {
     question: "Quem posso indicar?",
-    answer: "Você pode indicar tanto pessoas físicas quanto jurídicas que paguem mais de R$ 300 na conta de energia elétrica mensal."
+    answer: "Você pode indicar tanto pessoas físicas quanto jurídicas que pagam mais de R$ 300,00 na conta de energia elétrica mensal."
   },
   {
-    question: "Existe limite de indicações?",
-    answer: "Não existe limite de indicações. Você pode indicar quantos clientes quiser, desde que atendam aos requisitos mínimos."
+    question: "Existe limite de INDICADOS?",
+    answer: "Não existe limite de indicações. Você pode indicar quantos clientes quiser, a qualquer tempo, desde que atendam aos requisitos mínimos."
   },
   {
     question: "Como faço para indicar alguém?",
-    answer: "Após fazer seu cadastro como indicador, você terá acesso ao painel onde poderá cadastrar suas indicações com os dados básicos dos potenciais clientes."
+    answer: "Após fazer seu cadastro como INDICADOR, você terá acesso ao painel onde poderá cadastrar seus INDICADOS com os dados básicos para contato e abordagem. Deverá estar atento e obedecer de maneira irrestrita às regras do REGULAMENTO desta Campanha de Indicações."
   },
   {
     question: "O que acontece depois que eu indico alguém?",
@@ -46,35 +45,35 @@ const indicacoesFaqs = [
 
 const comissoesFaqs = [
   {
-    question: "Como são calculadas as comissões?",
-    answer: "As comissões são calculadas como 10% do valor da fatura de energia do cliente indicado mensalmente."
+    question: "Qual o fato gerador de Comissões neste programa de indicações?",
+    answer: "O fato gerador de Comissões é a assinatura do contrato do INDICADO com a ALEXANDRIA ENERGIA. O INDICADOR poderá acompanhar nesta plataforma o andamento do processo e interagir com seu INDICADO para estimulá-lo a efetivar seu CONTRATO DE ASSINATURA DE ENERGIA. Estima-se que em até 60 dias após a assinatura do contrato, ocorrerá o pagamento da Comissão."
   },
   {
-    question: "Quando recebo minha comissão?",
-    answer: "As comissões são pagas após a confirmação da contratação do serviço pelo cliente indicado, normalmente em até 30 dias após a conversão do lead."
+    question: "Quem me pagará as Comissões?",
+    answer: "A +Energia como afiliada "LEX" da ALEXANDRIA ENERGIA é a única responsável por este Programa de Indicações, e portanto, do pagamento de Comissões pelas INDICAÇÕES CONVERTIDAS."
+  },
+  {
+    question: "Como s��o calculadas as comissões?",
+    answer: "As comissões são calculadas aplicando-se 10% sobre o valor da parcela de energia da fatura apresentada pelo INDICADO (excluídos todos os itens que não sejam ENERGIA) no momento da geração da proposta comercial pela Alexandria, uma única vez. Não existe recorrência."
   },
   {
     question: "Recebo comissão recorrente?",
-    answer: "Sim, você receberá comissões mensais enquanto seu indicado permanecer como cliente ativo da LEX+ENERGIA."
-  },
-  {
-    question: "Preciso emitir nota fiscal para receber?",
-    answer: "Não é necessário emitir nota fiscal para receber suas comissões. O pagamento é feito diretamente via PIX para a chave cadastrada."
+    answer: "Não, você receberá apenas uma comissão de 10% sobre o valor aplicado a parcela faturável de energia da fatura apresentada pelo seu INDICADO para a ALEXANDRIA gerar uma proposta comercial."
   }
 ];
 
 const beneficiosFaqs = [
   {
     question: "Quais são os benefícios para quem é indicado?",
-    answer: "Os indicados conseguem economizar até 20% na conta de luz, sem investimento inicial e com toda a assessoria necessária."
+    answer: "Os indicados que fizerem sua portabilidade e assinarem contrato com a Alexandria conseguem economizar de 5% até 20% (na pessoa física, baixa tensão) e de 20% a 40% para empresas (média e alta tensão) na conta de energia, sem qualquer investimento inicial, permanecendo sempre em bandeira verde e no caso de empresas, ficando livre do horário de ponta."
   },
   {
     question: "É necessário fazer alguma alteração na instalação elétrica?",
-    answer: "Não é necessário fazer nenhuma alteração na instalação elétrica. O processo é 100% burocrático e não envolve obras ou instalações."
+    answer: "Não é necessário fazer nenhuma alteração na instalação elétrica ou investimento. O processo é 100% "sistêmico", similar a portabilidade de telefonia celular ou empréstimos bancários. A injeção dos créditos de energia ocorre em até 120 dias da assinatura do contrato, lembrando que este prazo é estabelecido pela ANEEL."
   },
   {
-    question: "Isso é legal? É regulamentado?",
-    answer: "Sim, o serviço é 100% legal e está de acordo com a Resolução Normativa da ANEEL nº 482/2012 e suas atualizações."
+    question: "Isso é legal? Está regulamentado?",
+    answer: "Sim, o serviço é 100% legal e está de acordo com a Lei 14.300/22 Resolução Normativa da ANEEL nº 482/2012 e suas atualizações."
   }
 ];
 
