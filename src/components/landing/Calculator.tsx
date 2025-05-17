@@ -16,16 +16,16 @@ const Calculator = () => {
   };
 
   return (
-    <section className="py-16 bg-white border-t border-b border-gray-100">
+    <section className="py-20 bg-white border-t border-b border-gray-100">
       <div className="container px-4 md:px-6">
-        <div className="grid gap-6 lg:grid-cols-2 lg:gap-12 items-center">
+        <div className="grid gap-8 lg:grid-cols-2 lg:gap-12 items-center">
           <div>
             <h2 className="text-3xl font-bold text-brand-blue mb-6">Calcule Seus Ganhos</h2>
             <p className="text-lg text-gray-600 mb-8">
               Use nossa calculadora para estimar quanto você pode ganhar como indicador.
               Quanto mais clientes você indicar, maior seu potencial de ganhos!
             </p>
-            <div className="bg-brand-blue/10 p-6 rounded-lg">
+            <div className="bg-brand-blue/10 p-8 rounded-2xl">
               <div className="space-y-6">
                 <div className="space-y-2">
                   <Label htmlFor="client-count">Número de indicações por mês:</Label>
@@ -69,7 +69,7 @@ const Calculator = () => {
             </div>
           </div>
           
-          <div className="bg-brand-blue text-white rounded-lg p-8 shadow-lg">
+          <div className="bg-brand-blue text-white rounded-2xl p-8 shadow-lg">
             <div className="text-center space-y-6">
               <h3 className="text-2xl font-bold">Seu potencial de ganhos:</h3>
               <div className="space-y-2">
@@ -85,7 +85,7 @@ const Calculator = () => {
                 <p className="text-white/80">por ano</p>
               </div>
               <Link to="/cadastro">
-                <Button className="w-full bg-brand-orange hover:bg-brand-orange-light text-white text-lg py-6">
+                <Button className="w-full bg-brand-orange hover:bg-brand-orange-light text-white text-lg py-6 rounded-full">
                   Comece a ganhar agora
                 </Button>
               </Link>

@@ -36,7 +36,7 @@ const benefitItems = [
 
 const Benefits = () => {
   return (
-    <section id="beneficios" className="py-16 bg-gray-50">
+    <section id="beneficios" className="py-20 bg-gray-50">
       <div className="container px-4 md:px-6">
         <div className="text-center mb-12">
           <h2 className="text-3xl font-bold text-brand-blue mb-4">Por Que Ser um Indicador?</h2>
@@ -49,7 +49,7 @@ const Benefits = () => {
           {benefitItems.map((item, index) => (
             <div 
               key={index} 
-              className="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow flex items-start space-x-4"
+              className="bg-white p-8 rounded-2xl shadow hover:shadow-md transition-shadow flex items-start space-x-4"
             >
               <div className="flex-shrink-0">
                 <div className="w-12 h-12 flex items-center justify-center rounded-full bg-brand-orange/10">

@@ -33,7 +33,7 @@ const faqs = [
 
 const FAQ = () => {
   return (
-    <section id="faq" className="py-16 bg-gray-50">
+    <section id="faq" className="py-20 bg-gray-50">
       <div className="container px-4 md:px-6">
         <div className="text-center mb-12">
           <h2 className="text-3xl font-bold text-brand-blue mb-4">Perguntas Frequentes</h2>
@@ -42,11 +42,11 @@ const FAQ = () => {
           </p>
         </div>
         
-        <div className="max-w-3xl mx-auto bg-white rounded-lg shadow-sm p-6">
+        <div className="max-w-3xl mx-auto bg-white rounded-2xl shadow p-8">
           <Accordion type="single" collapsible className="w-full">
             {faqs.map((faq, index) => (
               <AccordionItem key={index} value={`item-${index}`}>
-                <AccordionTrigger className="text-left font-medium">
+                <AccordionTrigger className="text-left font-medium text-gray-800">
                   {faq.question}
                 </AccordionTrigger>
                 <AccordionContent className="text-gray-600">
@@ -58,7 +58,7 @@ const FAQ = () => {
           
           <div className="mt-8 text-center">
             <Link to="/faq">
-              <Button variant="outline" className="border-brand-blue text-brand-blue hover:bg-brand-blue/10">
+              <Button variant="outline" className="border-brand-blue text-brand-blue hover:bg-brand-blue/10 rounded-full">
                 Ver todas as perguntas
               </Button>
             </Link>

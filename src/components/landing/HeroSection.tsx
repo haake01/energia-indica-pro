@@ -4,11 +4,11 @@ import { Link } from "react-router-dom";
 
 const HeroSection = () => {
   return (
-    <section className="py-12 md:py-24 bg-gradient-to-br from-brand-blue via-brand-blue/90 to-brand-blue/80 text-white">
+    <section className="py-16 md:py-24 bg-gradient-to-br from-brand-blue via-brand-blue/90 to-brand-blue/80 text-white">
       <div className="container px-4 md:px-6">
         <div className="grid gap-6 lg:grid-cols-2 lg:gap-12 items-center">
-          <div className="flex flex-col justify-center space-y-4 animate-fade-in">
-            <div className="space-y-2">
+          <div className="flex flex-col justify-center space-y-6 animate-fade-in">
+            <div className="space-y-4">
               <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl">
                 Indique e Ganhe com a LEX+ENERGIA
               </h1>
@@ -19,20 +19,20 @@ const HeroSection = () => {
             </div>
             <div className="flex flex-col md:flex-row gap-4 min-[400px]:flex-row">
               <Link to="/cadastro">
-                <Button className="bg-brand-orange text-white hover:bg-brand-orange-light text-lg px-8 py-6">
+                <Button className="bg-brand-orange text-white hover:bg-brand-orange-light text-lg px-8 py-6 rounded-full">
                   Quero ser indicador
                 </Button>
               </Link>
               <a href="#como-funciona">
-                <Button variant="outline" className="bg-transparent border-white text-white hover:bg-white/20 text-lg px-8 py-6">
+                <Button variant="outline" className="bg-transparent border-white text-white hover:bg-white/20 text-lg px-8 py-6 rounded-full">
                   Como funciona
                 </Button>
               </a>
             </div>
           </div>
           <div className="flex items-center justify-center">
-            <div className="w-full h-auto bg-white/10 border border-white/20 backdrop-blur-sm p-8 rounded-lg shadow-lg">
-              <div className="text-center space-y-2">
+            <div className="w-full h-auto bg-white/10 border border-white/20 backdrop-blur-sm p-8 rounded-2xl shadow-lg">
+              <div className="text-center space-y-4">
                 <h3 className="text-2xl font-bold">Comissões atrativas</h3>
                 <p className="text-xl md:text-2xl font-bold text-brand-lime">
                   Ganhe até R$ 500,00

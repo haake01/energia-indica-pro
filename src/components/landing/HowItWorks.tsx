@@ -30,7 +30,7 @@ const steps = [
 
 const HowItWorks = () => {
   return (
-    <section id="como-funciona" className="py-16 bg-white">
+    <section id="como-funciona" className="py-20 bg-white">
       <div className="container px-4 md:px-6">
         <div className="text-center mb-12">
           <h2 className="text-3xl font-bold text-brand-blue mb-4">Como Funciona</h2>
@@ -44,7 +44,7 @@ const HowItWorks = () => {
           {steps.map((step) => (
             <div 
               key={step.id} 
-              className="flex flex-col items-center text-center p-6 border border-gray-100 rounded-lg shadow-sm hover:shadow-md transition-shadow"
+              className="flex flex-col items-center text-center p-8 border border-gray-100 rounded-2xl shadow-md hover:shadow-lg transition-shadow bg-white"
             >
               <div className="w-16 h-16 flex items-center justify-center rounded-full bg-brand-blue/10 mb-4">
                 <step.icon className="text-brand-blue w-8 h-8" />

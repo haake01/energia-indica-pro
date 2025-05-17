@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 const Footer = () => {
   return (
     <footer id="contato" className="bg-gray-900 text-white">
-      <div className="container px-4 md:px-6 py-12">
+      <div className="container px-4 md:px-6 py-16">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div className="space-y-4">
             <h3 className="text-xl font-bold text-white">LEX+ENERGIA</h3>
@@ -16,7 +16,7 @@ const Footer = () => {
           
           <div className="space-y-4">
             <h3 className="text-lg font-semibold">Links Rápidos</h3>
-            <ul className="space-y-2">
+            <ul className="space-y-3">
               <li>
                 <a href="#como-funciona" className="text-gray-400 hover:text-white transition-colors">
                   Como Funciona
@@ -42,7 +42,7 @@ const Footer = () => {
           
           <div className="space-y-4">
             <h3 className="text-lg font-semibold">Contato</h3>
-            <ul className="space-y-2">
+            <ul className="space-y-3">
               <li className="text-gray-400">
                 <span className="block">Email:</span>
                 <a href="mailto:contato@lexenergia.com.br" className="hover:text-white transition-colors">
@@ -60,7 +60,7 @@ const Footer = () => {
           
           <div className="space-y-4">
             <h3 className="text-lg font-semibold">Legal</h3>
-            <ul className="space-y-2">
+            <ul className="space-y-3">
               <li>
                 <Link to="/privacidade" className="text-gray-400 hover:text-white transition-colors">
                   Política de Privacidade

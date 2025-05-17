@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 const CallToAction = () => {
   return (
-    <section className="py-16 bg-gradient-to-br from-brand-blue via-brand-blue/90 to-brand-blue/80 text-white">
+    <section className="py-20 bg-gradient-to-br from-brand-blue via-brand-blue/90 to-brand-blue/80 text-white">
       <div className="container px-4 md:px-6">
         <div className="text-center max-w-3xl mx-auto">
           <h2 className="text-3xl md:text-4xl font-bold mb-6">
@@ -16,12 +16,12 @@ const CallToAction = () => {
           </p>
           <div className="flex flex-col md:flex-row gap-4 justify-center">
             <Link to="/cadastro">
-              <Button className="bg-brand-orange text-white hover:bg-brand-orange-light text-lg px-8 py-6 w-full md:w-auto">
+              <Button className="bg-brand-orange text-white hover:bg-brand-orange-light text-lg px-8 py-6 w-full md:w-auto rounded-full">
                 Cadastre-se agora
               </Button>
             </Link>
             <Link to="/login">
-              <Button variant="outline" className="bg-transparent border-white text-white hover:bg-white/20 text-lg px-8 py-6 w-full md:w-auto">
+              <Button variant="outline" className="bg-transparent border-white text-white hover:bg-white/20 text-lg px-8 py-6 w-full md:w-auto rounded-full">
                 Já sou indicador
               </Button>
             </Link>
