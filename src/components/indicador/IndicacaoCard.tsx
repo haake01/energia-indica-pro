@@ -4,7 +4,7 @@ import { Check, Clock, AlertCircle } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
 import { ptBR } from "date-fns/locale";
 
-type Indicacao = {
+export type Indicacao = {
   id: string;
   nome: string;
   valorFatura: number;

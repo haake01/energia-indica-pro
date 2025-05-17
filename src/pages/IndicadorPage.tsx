@@ -3,7 +3,7 @@ import React from "react";
 import { BarChart3, Users, Plus, Check, Clock, AlertCircle } from "lucide-react";
 import DashboardHeader from "@/components/indicador/DashboardHeader";
 import DashboardSidebar from "@/components/indicador/DashboardSidebar";
-import IndicacaoCard from "@/components/indicador/IndicacaoCard";
+import IndicacaoCard, { Indicacao } from "@/components/indicador/IndicacaoCard";
 import EstatisticasCard from "@/components/indicador/EstatisticasCard";
 import NovaIndicacaoButton from "@/components/indicador/NovaIndicacaoButton";
 
@@ -17,7 +17,7 @@ const IndicadorPage = () => {
     totalGanho: 2450.0,
   };
 
-  const indicacoes = [
+  const indicacoes: Indicacao[] = [
     {
       id: "1",
       nome: "João Silva",
