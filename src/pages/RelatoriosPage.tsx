@@ -38,10 +38,7 @@ const RelatoriosPage = () => {
       <DashboardSidebar />
       
       <div className="flex flex-col flex-1">
-        <DashboardHeader 
-          title="Relatórios" 
-          description="Visualize e baixe relatórios importantes" 
-        />
+        <DashboardHeader />
         
         <main className="flex-1 p-6">
           <ReportPageHeader 
