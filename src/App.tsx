@@ -19,37 +19,35 @@ import GestorPainelPage from "./pages/GestorPainelPage";
 import RegulamentoPage from "./pages/RegulamentoPage";
 import RelatoriosPage from "./pages/RelatoriosPage";
 
-// Create the query client outside of the component
-const queryClient = new QueryClient();
-
 const App = () => {
+  // Create the query client instance inside the component
+  const queryClient = new QueryClient();
+
   return (
-    <React.StrictMode>
-      <QueryClientProvider client={queryClient}>
-        <BrowserRouter>
-          <TooltipProvider>
-            <Routes>
-              <Route path="/" element={<LandingPage />} />
-              <Route path="/login" element={<LoginPage />} />
-              <Route path="/cadastro" element={<RegisterPage />} />
-              <Route path="/recuperar-senha" element={<ForgotPasswordPage />} />
-              <Route path="/indicador" element={<IndicadorPage />} />
-              <Route path="/indicador/painel" element={<IndicadorPainelPage />} />
-              <Route path="/indicador/cadastrar-lead" element={<CadastroLeadPage />} />
-              <Route path="/indicador/leads" element={<ListaLeadsPage />} />
-              <Route path="/indicador/relatorios" element={<RelatoriosPage />} />
-              <Route path="/gestor/painel" element={<GestorPainelPage />} />
-              <Route path="/perguntas-frequentes" element={<FAQPage />} />
-              <Route path="/regulamento" element={<RegulamentoPage />} />
-              {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-            <Toaster />
-            <Sonner />
-          </TooltipProvider>
-        </BrowserRouter>
-      </QueryClientProvider>
-    </React.StrictMode>
+    <QueryClientProvider client={queryClient}>
+      <BrowserRouter>
+        <TooltipProvider>
+          <Routes>
+            <Route path="/" element={<LandingPage />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/cadastro" element={<RegisterPage />} />
+            <Route path="/recuperar-senha" element={<ForgotPasswordPage />} />
+            <Route path="/indicador" element={<IndicadorPage />} />
+            <Route path="/indicador/painel" element={<IndicadorPainelPage />} />
+            <Route path="/indicador/cadastrar-lead" element={<CadastroLeadPage />} />
+            <Route path="/indicador/leads" element={<ListaLeadsPage />} />
+            <Route path="/indicador/relatorios" element={<RelatoriosPage />} />
+            <Route path="/gestor/painel" element={<GestorPainelPage />} />
+            <Route path="/perguntas-frequentes" element={<FAQPage />} />
+            <Route path="/regulamento" element={<RegulamentoPage />} />
+            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+          <Toaster />
+          <Sonner />
+        </TooltipProvider>
+      </BrowserRouter>
+    </QueryClientProvider>
   );
 };
 

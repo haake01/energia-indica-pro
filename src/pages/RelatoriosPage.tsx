@@ -54,7 +54,6 @@ const RelatoriosPage = () => {
                   <SelectItem value="trimestre">Último trimestre</SelectItem>
                   <SelectItem value="semestre">Último semestre</SelectItem>
                   <SelectItem value="ano">Último ano</SelectItem>
-                  <SelectContent />
                 </SelectContent>
               </Select>
               

@@ -22,7 +22,7 @@ const CadastroLeadPage = () => {
 
   return (
     <div className="min-h-screen flex flex-col bg-[url('/lovable-uploads/d87ff5a8-c42e-4feb-b4aa-8b5c7606698a.png')] bg-cover bg-center bg-fixed">
-      <div className="min-h-screen bg-white/80 flex flex-col">
+      <div className="min-h-screen bg-white/80 backdrop-blur-sm flex flex-col">
         <div className="w-full max-w-4xl mx-auto p-6 space-y-8 my-10">
           <div className="flex items-center">
             <Link to="/indicador/painel" className="text-gray-600 hover:text-gray-900 flex items-center gap-2">
