@@ -7,7 +7,8 @@ import {
   Settings, 
   LogOut, 
   Home,
-  Plus
+  Plus,
+  ShieldLock
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
@@ -27,6 +28,7 @@ const DashboardSidebar = () => {
           <SidebarLink icon={Users} text="Indicações" to="/indicador/indicacoes" />
           <SidebarLink icon={BarChart3} text="Relatórios" to="/indicador/relatorios" />
           <SidebarLink icon={Settings} text="Configurações" to="/indicador/configuracoes" />
+          <SidebarLink icon={ShieldLock} text="Área de Gestor" to="/gestor/painel" />
         </div>
         
         <div className="mt-6 lg:px-2">

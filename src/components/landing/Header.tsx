@@ -1,6 +1,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
+import { ShieldLock } from "lucide-react";
 
 const Header = () => {
   return (
@@ -36,6 +37,12 @@ const Header = () => {
           <Link to="/cadastro">
             <Button className="bg-brand-orange text-white hover:bg-brand-orange-light rounded-full">
               Cadastre-se
+            </Button>
+          </Link>
+          <Link to="/gestor/painel" className="hidden md:inline-flex">
+            <Button variant="outline" className="bg-gray-800 text-white hover:bg-gray-700 border-gray-800 rounded-full flex items-center gap-2">
+              <ShieldLock size={18} />
+              <span>Área Restrita</span>
             </Button>
           </Link>
         </div>
