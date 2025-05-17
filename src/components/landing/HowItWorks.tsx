@@ -45,15 +45,15 @@ const HowItWorks = () => {
           {steps.map((step) => (
             <div 
               key={step.id} 
-              className="flex flex-col items-center text-center p-8 border border-gray-100 rounded-2xl shadow-md hover:shadow-lg transition-all hover:-translate-y-1 bg-white"
+              className="flex flex-col items-center text-center p-8 border border-gray-100 rounded-2xl shadow-md hover:shadow-lg transition-all hover:-translate-y-1 bg-brand-blue text-white"
             >
-              <div className="w-16 h-16 flex items-center justify-center rounded-full bg-brand-blue/10 mb-4">
-                <step.icon className="text-brand-blue w-8 h-8" />
+              <div className="w-16 h-16 flex items-center justify-center rounded-full bg-white/20 mb-4">
+                <step.icon className="text-white w-8 h-8" />
               </div>
-              <h3 className="text-xl font-semibold mb-2 text-gray-800">
+              <h3 className="text-xl font-semibold mb-2 text-white">
                 {step.id}. {step.title}
               </h3>
-              <p className="text-gray-600">{step.description}</p>
+              <p className="text-white/90">{step.description}</p>
             </div>
           ))}
         </div>

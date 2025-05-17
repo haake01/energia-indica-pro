@@ -40,7 +40,7 @@ const Benefits = () => {
       <div className="container px-4 md:px-6">
         <div className="text-center mb-12">
           <span className="inline-block px-4 py-1.5 mb-4 text-xs font-semibold rounded-full bg-brand-orange/10 text-brand-orange">Benefícios</span>
-          <h2 className="text-3xl font-bold text-brand-blue mb-4">Por Que Ser um Indicador?</h2>
+          <h2 className="text-3xl font-bold text-brand-orange mb-4">Por Que Ser um Indicador?</h2>
           <p className="text-lg text-gray-600 max-w-3xl mx-auto">
             Ao se tornar um indicador da LEX+ENERGIA, você acessa diversos benefícios:
           </p>
@@ -50,16 +50,16 @@ const Benefits = () => {
           {benefitItems.map((item, index) => (
             <div 
               key={index} 
-              className="bg-white p-8 rounded-2xl shadow hover:shadow-md transition-all hover:-translate-y-1 flex items-start space-x-4"
+              className="bg-brand-orange p-8 rounded-2xl shadow hover:shadow-md transition-all hover:-translate-y-1 flex items-start space-x-4"
             >
               <div className="flex-shrink-0">
-                <div className="w-12 h-12 flex items-center justify-center rounded-full bg-brand-orange/10">
-                  <item.icon className="text-brand-orange w-6 h-6" />
+                <div className="w-12 h-12 flex items-center justify-center rounded-full bg-white/20">
+                  <item.icon className="text-white w-6 h-6" />
                 </div>
               </div>
               <div>
-                <h3 className="text-xl font-semibold mb-2 text-gray-800">{item.title}</h3>
-                <p className="text-gray-600">{item.description}</p>
+                <h3 className="text-xl font-semibold mb-2 text-white">{item.title}</h3>
+                <p className="text-white/90">{item.description}</p>
               </div>
             </div>
           ))}
