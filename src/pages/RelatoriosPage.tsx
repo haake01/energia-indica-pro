@@ -35,7 +35,10 @@ const RelatoriosPage = () => {
       <DashboardSidebar />
       
       <div className="flex flex-col flex-1">
-        <DashboardHeader title="Relatórios" description="Visualize e baixe relatórios importantes" />
+        <DashboardHeader 
+          title="Relatórios" 
+          description="Visualize e baixe relatórios importantes" 
+        />
         
         <main className="flex-1 p-6">
           <div className="mb-8 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
