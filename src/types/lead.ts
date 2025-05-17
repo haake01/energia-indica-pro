@@ -14,6 +14,8 @@ export interface Lead {
   contato?: string;
   dataCadastro: string;
   status: "novo" | "contatado" | "convertido" | "perdido";
+  faturaUrl?: string;
+  indicadorId?: string;
 }
 
 export type LeadFilter = {
@@ -24,3 +26,10 @@ export type LeadFilter = {
   dataFim?: string;
   termo?: string;
 };
+
+// Tipo para visualização de fatura
+export interface FaturaViewerProps {
+  url: string;
+  filename: string;
+  fileType: string;
+}

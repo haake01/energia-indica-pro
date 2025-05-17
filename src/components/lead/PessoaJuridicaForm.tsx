@@ -3,6 +3,7 @@ import React from "react";
 import { useFormContext } from "react-hook-form";
 import { FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { FileUpload } from "@/components/ui/file-upload";
 
 const PessoaJuridicaForm = () => {
   const form = useFormContext();
@@ -96,6 +97,27 @@ const PessoaJuridicaForm = () => {
           )}
         />
       </div>
+
+      <FormField
+        control={form.control}
+        name="fatura"
+        render={({ field: { onChange, value, ...field }, fieldState }) => (
+          <FormItem>
+            <FormLabel>Upload da fatura de energia*</FormLabel>
+            <FormControl>
+              <FileUpload 
+                onChange={onChange} 
+                value={value} 
+                accept=".pdf,.jpg,.jpeg,.png"
+                label="Faça upload da fatura de energia atual"
+                error={fieldState.error?.message}
+                {...field}
+              />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
     </>
   );
 };
