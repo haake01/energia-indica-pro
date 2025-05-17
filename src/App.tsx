@@ -13,6 +13,7 @@ import NotFound from "./pages/NotFound";
 import IndicadorPage from "./pages/IndicadorPage";
 import IndicadorPainelPage from "./pages/IndicadorPainelPage";
 import CadastroLeadPage from "./pages/CadastroLeadPage";
+import ListaLeadsPage from "./pages/ListaLeadsPage";
 import FAQPage from "./pages/FAQPage";
 
 // Create the query client outside of the component
@@ -32,6 +33,7 @@ const App = () => {
               <Route path="/indicador" element={<IndicadorPage />} />
               <Route path="/indicador/painel" element={<IndicadorPainelPage />} />
               <Route path="/indicador/cadastrar-lead" element={<CadastroLeadPage />} />
+              <Route path="/indicador/leads" element={<ListaLeadsPage />} />
               <Route path="/perguntas-frequentes" element={<FAQPage />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />

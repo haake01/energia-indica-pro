@@ -1,12 +1,9 @@
 
-import React, { useState } from "react";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { Check, ArrowLeft } from "lucide-react";
+import React from "react";
 import { Link } from "react-router-dom";
+import { Check, ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
-import { toast } from "@/hooks/use-toast";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 
 // Import components
@@ -15,70 +12,11 @@ import PessoaJuridicaForm from "@/components/lead/PessoaJuridicaForm";
 import LeadCommonFields from "@/components/lead/LeadCommonFields";
 import LeadTypePicker from "@/components/lead/LeadTypePicker";
 
-// Import schema
-import { formSchema, FormValues } from "@/schemas/leadFormSchema";
+// Import custom hook
+import { useLeadForm } from "@/hooks/useLeadForm";
 
 const CadastroLeadPage = () => {
-  const [isLoading, setIsLoading] = useState(false);
-  const [tipoPessoa, setTipoPessoa] = useState<"pf" | "pj">("pf");
-
-  const form = useForm<FormValues>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      tipoPessoa: "pf",
-      nome: "",
-      email: "",
-      telefone: "",
-      cpf: "",
-      interesse: "",
-      observacoes: "",
-    },
-    mode: "onChange",
-  });
-
-  // Atualiza o formulário quando o tipo de pessoa muda
-  const handleTipoPessoaChange = (value: "pf" | "pj") => {
-    setTipoPessoa(value);
-    form.reset({
-      tipoPessoa: value,
-      ...(value === "pf"
-        ? {
-            nome: "",
-            email: "",
-            telefone: "",
-            cpf: "",
-            interesse: "",
-            observacoes: "",
-          }
-        : {
-            razaoSocial: "",
-            nomeFantasia: "",
-            email: "",
-            telefone: "",
-            cnpj: "",
-            interesse: "",
-            observacoes: "",
-            contato: "",
-          }),
-    });
-  };
-
-  const onSubmit = (data: FormValues) => {
-    setIsLoading(true);
-
-    // Simulação de envio para API
-    setTimeout(() => {
-      console.log("Dados do lead:", data);
-      
-      toast({
-        title: "Lead cadastrado com sucesso!",
-        description: "O lead foi registrado em nosso sistema.",
-      });
-      
-      form.reset();
-      setIsLoading(false);
-    }, 1500);
-  };
+  const { form, isLoading, tipoPessoa, handleTipoPessoaChange, onSubmit } = useLeadForm();
 
   return (
     <div className="min-h-screen bg-white flex flex-col">
