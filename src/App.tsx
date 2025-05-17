@@ -11,6 +11,7 @@ import RegisterPage from "./pages/RegisterPage";
 import ForgotPasswordPage from "./pages/ForgotPasswordPage";
 import NotFound from "./pages/NotFound";
 import IndicadorPage from "./pages/IndicadorPage";
+import IndicadorPainelPage from "./pages/IndicadorPainelPage";
 import FAQPage from "./pages/FAQPage";
 
 // Create the query client outside of the component
@@ -28,6 +29,7 @@ const App = () => {
               <Route path="/cadastro" element={<RegisterPage />} />
               <Route path="/recuperar-senha" element={<ForgotPasswordPage />} />
               <Route path="/indicador" element={<IndicadorPage />} />
+              <Route path="/indicador/painel" element={<IndicadorPainelPage />} />
               <Route path="/perguntas-frequentes" element={<FAQPage />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
