@@ -18,6 +18,7 @@ import FAQPage from "./pages/FAQPage";
 import GestorPainelPage from "./pages/GestorPainelPage";
 import RegulamentoPage from "./pages/RegulamentoPage";
 import RelatoriosPage from "./pages/RelatoriosPage";
+import SupportPage from "./pages/SupportPage";
 
 const App = () => {
   // Create the query client instance inside the component
@@ -40,6 +41,7 @@ const App = () => {
             <Route path="/gestor/painel" element={<GestorPainelPage />} />
             <Route path="/perguntas-frequentes" element={<FAQPage />} />
             <Route path="/regulamento" element={<RegulamentoPage />} />
+            <Route path="/suporte" element={<SupportPage />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>

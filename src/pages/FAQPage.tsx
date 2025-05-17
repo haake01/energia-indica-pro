@@ -9,7 +9,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { BookOpen } from "lucide-react";
+import { BookOpen, Mail, HeadphonesIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 
@@ -29,6 +29,14 @@ const programaFaqs = [
   {
     question: "Existe algum custo para participar do programa?",
     answer: "Não há nenhum custo para participar. O cadastro é totalmente gratuito e não cobramos taxas de adesão ou mensalidades."
+  },
+  {
+    question: "Como faço meu cadastro como indicador?",
+    answer: "Basta acessar nossa plataforma, clicar em 'Cadastre-se', preencher todos os seus dados, incluindo uma chave PIX válida para recebimento de comissões, e concordar com nosso regulamento."
+  },
+  {
+    question: "Posso participar sendo pessoa jurídica?",
+    answer: "Sim, empresas também podem se cadastrar como indicadoras. O processo é o mesmo, mas exige informações específicas de pessoa jurídica como CNPJ e razão social."
   }
 ];
 
@@ -48,6 +56,14 @@ const indicacoesFaqs = [
   {
     question: "O que acontece depois que eu indico alguém?",
     answer: "Nossa equipe entrará em contato com a pessoa indicada para oferecer nosso serviço. Você poderá acompanhar todo o processo através do seu painel de indicador."
+  },
+  {
+    question: "Posso acompanhar o status das minhas indicações?",
+    answer: "Sim, através do seu painel de indicador você consegue acompanhar em tempo real o status de cada indicação, desde o cadastro inicial até a conversão em contrato."
+  },
+  {
+    question: "É possível indicar clientes de qualquer região do Brasil?",
+    answer: "Sim, aceitamos indicações de todo o território nacional, desde que a região seja atendida pelo serviço de portabilidade da ALEXANDRIA ENERGIA."
   }
 ];
 
@@ -75,6 +91,14 @@ const comissoesFaqs = [
   {
     question: "Preciso Emitir Nota Fiscal?",
     answer: "Não é necessário emitir nota fiscal para receber suas comissões. O pagamento é feito diretamente via PIX para a chave cadastrada."
+  },
+  {
+    question: "Existe um valor mínimo ou máximo de comissão?",
+    answer: "Não há valor mínimo estabelecido. O valor da comissão é diretamente proporcional ao consumo de energia do seu indicado. Também não há um teto máximo para ganhos."
+  },
+  {
+    question: "O que acontece se meu indicado desistir após assinar o contrato?",
+    answer: "Uma vez que o contrato foi assinado e a comissão foi gerada, você não perde o direito à comissão, mesmo se posteriormente o cliente decidir cancelar o serviço."
   }
 ];
 
@@ -90,6 +114,37 @@ const beneficiosFaqs = [
   {
     question: "Isso é legal? Está regulamentado?",
     answer: "Sim, o serviço é 100% legal e está de acordo com a Lei 14.300/22 Resolução Normativa da ANEEL nº 482/2012 e suas atualizações."
+  },
+  {
+    question: "Por quanto tempo o meu indicado economizará na conta de luz?",
+    answer: "O contrato padrão tem duração de 12 meses, podendo ser renovado. Durante todo esse período, seu indicado continuará economizando na conta de energia."
+  },
+  {
+    question: "Meu indicado pode cancelar o contrato a qualquer momento?",
+    answer: "O contrato possui um período mínimo de fidelidade. Os termos específicos e condições para cancelamento estão detalhados no contrato que será apresentado ao seu indicado."
+  }
+];
+
+const sistemaDeFAQs = [
+  {
+    question: "Como acesso o painel do indicador?",
+    answer: "Após realizar seu cadastro e login na plataforma, você será direcionado automaticamente para o seu painel de indicador, onde poderá acompanhar suas indicações e comissões."
+  },
+  {
+    question: "Esqueci minha senha, como recupero?",
+    answer: "Na página de login, clique em 'Esqueci minha senha' e siga as instruções que serão enviadas para o e-mail cadastrado."
+  },
+  {
+    question: "Como faço para atualizar meus dados cadastrais?",
+    answer: "No seu painel do indicador, acesse o menu 'Configurações' ou 'Minha Conta' para atualizar seus dados pessoais, incluindo a chave PIX para recebimento."
+  },
+  {
+    question: "Os relatórios disponíveis no sistema podem ser baixados?",
+    answer: "Sim, todos os relatórios gerados pelo sistema podem ser baixados em formato PDF para seu controle e acompanhamento."
+  },
+  {
+    question: "O sistema funciona bem em dispositivos móveis?",
+    answer: "Sim, nossa plataforma é totalmente responsiva e funciona perfeitamente em smartphones e tablets, permitindo que você faça indicações e acompanhe seu desempenho de qualquer lugar."
   }
 ];
 
@@ -111,11 +166,12 @@ const FAQPage = () => {
             
             <div className="max-w-5xl mx-auto bg-white rounded-2xl shadow p-8">
               <Tabs defaultValue="programa" className="w-full">
-                <TabsList className="grid grid-cols-2 md:grid-cols-4 mb-8">
+                <TabsList className="grid grid-cols-2 md:grid-cols-5 mb-8">
                   <TabsTrigger value="programa" className="data-[state=active]:bg-brand-lime data-[state=active]:text-white">Sobre o Programa</TabsTrigger>
                   <TabsTrigger value="indicacoes" className="data-[state=active]:bg-brand-lime data-[state=active]:text-white">Indicações</TabsTrigger>
                   <TabsTrigger value="comissoes" className="data-[state=active]:bg-brand-lime data-[state=active]:text-white">Comissões</TabsTrigger>
-                  <TabsTrigger value="beneficios" className="data-[state=active]:bg-brand-lime data-[state=active]:text-white">Benefícios aos Indicados</TabsTrigger>
+                  <TabsTrigger value="beneficios" className="data-[state=active]:bg-brand-lime data-[state=active]:text-white">Benefícios</TabsTrigger>
+                  <TabsTrigger value="sistema" className="data-[state=active]:bg-brand-lime data-[state=active]:text-white">Sistema</TabsTrigger>
                 </TabsList>
                 
                 <TabsContent value="programa">
@@ -177,18 +233,58 @@ const FAQPage = () => {
                     ))}
                   </Accordion>
                 </TabsContent>
+
+                <TabsContent value="sistema">
+                  <Accordion type="single" collapsible className="w-full">
+                    {sistemaDeFAQs.map((faq, index) => (
+                      <AccordionItem key={index} value={`sistema-${index}`}>
+                        <AccordionTrigger className="text-left font-medium text-gray-800">
+                          {faq.question}
+                        </AccordionTrigger>
+                        <AccordionContent className="text-gray-600">
+                          {faq.answer}
+                        </AccordionContent>
+                      </AccordionItem>
+                    ))}
+                  </Accordion>
+                </TabsContent>
               </Tabs>
               
-              <div className="mt-10 border-t pt-8 flex flex-col md:flex-row gap-6 items-center justify-center">
+              <div className="mt-10 border-t pt-8 flex flex-col md:flex-row gap-6 items-center justify-between">
                 <div className="flex items-center text-brand-blue gap-2">
                   <BookOpen size={24} />
                   <span className="font-medium">Quer conhecer todos os detalhes do programa?</span>
                 </div>
-                <Link to="/regulamento">
-                  <Button variant="outline" className="border-brand-orange text-brand-orange hover:bg-brand-orange hover:text-white">
-                    Ver Regulamento Completo
-                  </Button>
-                </Link>
+                <div className="flex gap-4">
+                  <Link to="/regulamento">
+                    <Button variant="outline" className="border-brand-orange text-brand-orange hover:bg-brand-orange hover:text-white">
+                      Ver Regulamento Completo
+                    </Button>
+                  </Link>
+                  <Link to="/suporte">
+                    <Button className="bg-brand-blue hover:bg-brand-blue/90 text-white flex items-center gap-2">
+                      <HeadphonesIcon size={18} />
+                      <span>Central de Suporte</span>
+                    </Button>
+                  </Link>
+                </div>
+              </div>
+
+              <div className="mt-10 bg-gray-50 p-6 rounded-lg">
+                <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+                  <div>
+                    <h3 className="text-xl font-semibold text-brand-blue mb-2">Não encontrou o que procura?</h3>
+                    <p className="text-gray-600">Nossa equipe de suporte está pronta para ajudar você com qualquer dúvida.</p>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <Link to="/suporte">
+                      <Button variant="outline" className="border-brand-blue text-brand-blue hover:bg-brand-blue hover:text-white flex items-center gap-2">
+                        <Mail size={18} />
+                        <span>Contato</span>
+                      </Button>
+                    </Link>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
