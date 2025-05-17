@@ -9,6 +9,9 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { BookOpen } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 
 const programaFaqs = [
   {
@@ -93,15 +96,9 @@ const beneficiosFaqs = [
 const FAQPage = () => {
   return (
     <div 
-      className="flex min-h-screen flex-col" 
-      style={{
-        backgroundImage: "url('/lovable-uploads/d87ff5a8-c42e-4feb-b4aa-8b5c7606698a.png')",
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        backgroundAttachment: "fixed",
-      }}
+      className="min-h-screen bg-[url('/lovable-uploads/d87ff5a8-c42e-4feb-b4aa-8b5c7606698a.png')] bg-cover bg-center bg-fixed"
     >
-      <div className="flex min-h-screen flex-col bg-brand-blue/50 backdrop-blur-sm">
+      <div className="min-h-screen bg-brand-blue/50 backdrop-blur-sm flex flex-col">
         <Header />
         <main className="flex-1 py-20">
           <div className="container px-4 md:px-6">
@@ -181,6 +178,18 @@ const FAQPage = () => {
                   </Accordion>
                 </TabsContent>
               </Tabs>
+              
+              <div className="mt-10 border-t pt-8 flex flex-col md:flex-row gap-6 items-center justify-center">
+                <div className="flex items-center text-brand-blue gap-2">
+                  <BookOpen size={24} />
+                  <span className="font-medium">Quer conhecer todos os detalhes do programa?</span>
+                </div>
+                <Link to="/regulamento">
+                  <Button variant="outline" className="border-brand-orange text-brand-orange hover:bg-brand-orange hover:text-white">
+                    Ver Regulamento Completo
+                  </Button>
+                </Link>
+              </div>
             </div>
           </div>
         </main>

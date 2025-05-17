@@ -5,6 +5,7 @@ import { Check, ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Checkbox } from "@/components/ui/checkbox";
 
 // Import components
 import PessoaFisicaForm from "@/components/lead/PessoaFisicaForm";
@@ -17,6 +18,7 @@ import { useLeadForm } from "@/hooks/useLeadForm";
 
 const CadastroLeadPage = () => {
   const { form, isLoading, tipoPessoa, handleTipoPessoaChange, onSubmit } = useLeadForm();
+  const [concordaRegulamento, setConcordaRegulamento] = React.useState(false);
 
   return (
     <div className="min-h-screen flex flex-col bg-[url('/lovable-uploads/d87ff5a8-c42e-4feb-b4aa-8b5c7606698a.png')] bg-cover bg-center bg-fixed">
@@ -60,15 +62,35 @@ const CadastroLeadPage = () => {
                 <LeadCommonFields />
               </div>
               
-              <div className="flex items-center pb-4">
+              <div className="flex flex-col gap-4 pb-4">
+                <div className="flex items-center space-x-2">
+                  <Checkbox 
+                    id="terms" 
+                    checked={concordaRegulamento}
+                    onCheckedChange={(checked) => setConcordaRegulamento(checked as boolean)}
+                    required
+                  />
+                  <div className="grid gap-1.5 leading-none">
+                    <label
+                      htmlFor="terms"
+                      className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                    >
+                      Concordo com os termos do regulamento
+                    </label>
+                    <p className="text-sm text-gray-500">
+                      Você precisa concordar com o regulamento para prosseguir.
+                    </p>
+                  </div>
+                </div>
+                
                 <Link to="/regulamento" className="text-brand-blue hover:underline text-sm">
-                  Ver regulamento do programa de indicações
+                  Ver regulamento completo do programa de indicações
                 </Link>
               </div>
               
               <Button
                 type="submit"
-                disabled={isLoading}
+                disabled={isLoading || !concordaRegulamento}
                 className="w-full md:w-auto bg-brand-orange hover:bg-brand-orange/90 text-white h-12 rounded-full px-8"
               >
                 {isLoading ? (

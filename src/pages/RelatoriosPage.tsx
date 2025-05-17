@@ -1,246 +1,263 @@
 
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import { ArrowLeft, ArrowDown, FileUp, FilePdf } from "lucide-react";
-
+import React from "react";
+import { useNavigate } from "react-router-dom";
+import DashboardSidebar from "@/components/indicador/DashboardSidebar";
+import { FileText, Download, Filter } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-
-// Reports data mockup
-const reportsList = [
-  {
-    id: "rel-001",
-    title: "Relatório de Comissões - Maio 2025",
-    date: "15/05/2025",
-    description: "Resumo das comissões geradas no mês de Maio de 2025",
-    type: "comissoes",
-  },
-  {
-    id: "rel-002",
-    title: "Relatório de Indicações - Maio 2025",
-    date: "15/05/2025",
-    description: "Detalhamento das indicações feitas em Maio de 2025",
-    type: "indicacoes",
-  },
-  {
-    id: "rel-003",
-    title: "Relatório de Performance - 1º Trimestre 2025",
-    date: "10/04/2025",
-    description: "Análise de performance do indicador no primeiro trimestre de 2025",
-    type: "performance",
-  },
-  {
-    id: "rel-004",
-    title: "Relatório de Comissões - Abril 2025",
-    date: "15/04/2025",
-    description: "Resumo das comissões geradas no mês de Abril de 2025",
-    type: "comissoes",
-  },
-  {
-    id: "rel-005",
-    title: "Relatório de Indicações - Abril 2025",
-    date: "15/04/2025",
-    description: "Detalhamento das indicações feitas em Abril de 2025",
-    type: "indicacoes",
-  },
-];
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import DashboardHeader from "@/components/indicador/DashboardHeader";
+import { Separator } from "@/components/ui/separator";
+import { Badge } from "@/components/ui/badge";
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Label } from "@/components/ui/label";
+import { toast } from "@/hooks/use-toast";
 
 const RelatoriosPage = () => {
-  const [filter, setFilter] = useState("todos");
+  const navigate = useNavigate();
   
-  // Filter reports based on selected tab
-  const filteredReports = filter === "todos" 
-    ? reportsList 
-    : reportsList.filter(report => report.type === filter);
-  
-  // Simulate downloading a report
-  const handleDownload = (reportId: string, reportTitle: string) => {
-    console.log(`Downloading report ${reportId}: ${reportTitle}`);
-    // In a real app, this would trigger an API call to fetch the PDF
+  const handleDownload = (reportName: string) => {
+    toast({
+      title: "Iniciando download",
+      description: `O relatório ${reportName} será baixado em instantes.`,
+    });
   };
 
   return (
-    <div className="min-h-screen bg-[url('/lovable-uploads/d87ff5a8-c42e-4feb-b4aa-8b5c7606698a.png')] bg-cover bg-center bg-fixed">
-      <div className="min-h-screen bg-white/80 flex flex-col">
-        <div className="container mx-auto p-6 flex flex-col space-y-8">
-          <div className="flex items-center">
-            <Link to="/indicador/painel" className="text-gray-600 hover:text-gray-900 flex items-center gap-2">
-              <ArrowLeft size={20} />
-              <span>Voltar ao painel</span>
-            </Link>
-          </div>
-
-          <div className="bg-white rounded-lg shadow-lg p-6">
-            <h1 className="text-2xl font-bold text-brand-blue mb-6">Relatórios em PDF</h1>
-
-            <Card className="mb-6">
-              <CardHeader className="pb-2">
-                <CardTitle>Seus Relatórios</CardTitle>
-                <CardDescription>
-                  Acesse todos os relatórios gerados para sua conta de indicador
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <Tabs defaultValue="todos" value={filter} onValueChange={setFilter} className="w-full">
-                  <TabsList className="grid grid-cols-4 mb-6">
-                    <TabsTrigger value="todos">Todos</TabsTrigger>
-                    <TabsTrigger value="comissoes">Comissões</TabsTrigger>
-                    <TabsTrigger value="indicacoes">Indicações</TabsTrigger>
-                    <TabsTrigger value="performance">Performance</TabsTrigger>
-                  </TabsList>
-                  
-                  <TabsContent value="todos" className="mt-0">
-                    <ReportsTable reports={filteredReports} onDownload={handleDownload} />
-                  </TabsContent>
-                  
-                  <TabsContent value="comissoes" className="mt-0">
-                    <ReportsTable reports={filteredReports} onDownload={handleDownload} />
-                  </TabsContent>
-                  
-                  <TabsContent value="indicacoes" className="mt-0">
-                    <ReportsTable reports={filteredReports} onDownload={handleDownload} />
-                  </TabsContent>
-                  
-                  <TabsContent value="performance" className="mt-0">
-                    <ReportsTable reports={filteredReports} onDownload={handleDownload} />
-                  </TabsContent>
-                </Tabs>
-              </CardContent>
-            </Card>
+    <div className="flex min-h-screen bg-gray-100">
+      <DashboardSidebar />
+      
+      <div className="flex flex-col flex-1">
+        <DashboardHeader title="Relatórios" description="Visualize e baixe relatórios importantes" />
+        
+        <main className="flex-1 p-6">
+          <div className="mb-8 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+            <div>
+              <h1 className="text-2xl font-bold text-gray-800">Relatórios Disponíveis</h1>
+              <p className="text-gray-600">Acesse todos os seus dados e estatísticas em formato PDF</p>
+            </div>
             
-            <Card>
-              <CardHeader className="pb-2">
-                <CardTitle>Solicitar Novo Relatório</CardTitle>
-                <CardDescription>
-                  Solicite a geração de um novo relatório específico
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  <Button 
-                    variant="outline" 
-                    className="flex items-center gap-2 h-auto py-6 justify-start"
-                    onClick={() => console.log("Solicitando relatório de comissões")}
-                  >
-                    <div className="h-10 w-10 rounded-full bg-blue-100 flex items-center justify-center">
-                      <FilePdf className="h-5 w-5 text-brand-blue" />
-                    </div>
-                    <div className="text-left">
-                      <h3 className="font-medium">Relatório de Comissões</h3>
-                      <p className="text-sm text-gray-500">Detalhamento de todas as suas comissões</p>
-                    </div>
+            <div className="flex items-center gap-4">
+              <Select defaultValue="mes">
+                <SelectTrigger className="w-[180px]">
+                  <SelectValue placeholder="Período" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="mes">Último mês</SelectItem>
+                  <SelectItem value="trimestre">Último trimestre</SelectItem>
+                  <SelectItem value="semestre">Último semestre</SelectItem>
+                  <SelectItem value="ano">Último ano</SelectItem>
+                  <SelectContent />
+                </SelectContent>
+              </Select>
+              
+              <Dialog>
+                <DialogTrigger asChild>
+                  <Button variant="outline" size="sm" className="flex items-center gap-2">
+                    <Filter size={16} />
+                    <span>Filtros</span>
                   </Button>
+                </DialogTrigger>
+                <DialogContent>
+                  <DialogHeader>
+                    <DialogTitle>Filtros de relatórios</DialogTitle>
+                    <DialogDescription>
+                      Selecione os filtros desejados para os relatórios
+                    </DialogDescription>
+                  </DialogHeader>
                   
-                  <Button 
-                    variant="outline" 
-                    className="flex items-center gap-2 h-auto py-6 justify-start"
-                    onClick={() => console.log("Solicitando relatório de indicações")}
-                  >
-                    <div className="h-10 w-10 rounded-full bg-green-100 flex items-center justify-center">
-                      <FilePdf className="h-5 w-5 text-green-600" />
+                  <div className="grid gap-4 py-4">
+                    <div className="grid gap-2">
+                      <Label htmlFor="status">Status das indicações</Label>
+                      <Select defaultValue="todas">
+                        <SelectTrigger id="status">
+                          <SelectValue placeholder="Selecione um status" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="todas">Todas</SelectItem>
+                          <SelectItem value="pendente">Pendentes</SelectItem>
+                          <SelectItem value="aprovada">Aprovadas</SelectItem>
+                          <SelectItem value="recusada">Recusadas</SelectItem>
+                        </SelectContent>
+                      </Select>
                     </div>
-                    <div className="text-left">
-                      <h3 className="font-medium">Relatório de Indicações</h3>
-                      <p className="text-sm text-gray-500">Lista completa das suas indicações</p>
+                    
+                    <div className="grid gap-2">
+                      <Label htmlFor="tipo">Tipo de cliente</Label>
+                      <Select defaultValue="todos">
+                        <SelectTrigger id="tipo">
+                          <SelectValue placeholder="Selecione um tipo" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="todos">Todos</SelectItem>
+                          <SelectItem value="pf">Pessoa Física</SelectItem>
+                          <SelectItem value="pj">Pessoa Jurídica</SelectItem>
+                        </SelectContent>
+                      </Select>
                     </div>
-                  </Button>
+                  </div>
                   
-                  <Button 
-                    variant="outline" 
-                    className="flex items-center gap-2 h-auto py-6 justify-start"
-                    onClick={() => console.log("Solicitando relatório de performance")}
-                  >
-                    <div className="h-10 w-10 rounded-full bg-orange-100 flex items-center justify-center">
-                      <FilePdf className="h-5 w-5 text-brand-orange" />
-                    </div>
-                    <div className="text-left">
-                      <h3 className="font-medium">Relatório de Performance</h3>
-                      <p className="text-sm text-gray-500">Análise da sua performance como indicador</p>
-                    </div>
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
+                  <DialogFooter>
+                    <Button variant="outline">Limpar filtros</Button>
+                    <Button>Aplicar filtros</Button>
+                  </DialogFooter>
+                </DialogContent>
+              </Dialog>
+            </div>
           </div>
-        </div>
+          
+          <Tabs defaultValue="indicacoes" className="w-full">
+            <TabsList className="mb-6">
+              <TabsTrigger value="indicacoes">Indicações</TabsTrigger>
+              <TabsTrigger value="comissoes">Comissões</TabsTrigger>
+              <TabsTrigger value="desempenho">Desempenho</TabsTrigger>
+            </TabsList>
+            
+            <TabsContent value="indicacoes" className="space-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+                {/* Relatório de Indicações Mensais */}
+                <ReportCard 
+                  title="Indicações Mensais" 
+                  description="Relatório detalhado de todas as suas indicações do mês"
+                  icon={<FileText className="h-8 w-8 text-blue-500" />}
+                  badges={["PDF"]}
+                  onDownload={() => handleDownload("Indicações Mensais")}
+                />
+                
+                {/* Relatório de Status das Indicações */}
+                <ReportCard 
+                  title="Status das Indicações" 
+                  description="Acompanhamento de status de todas as indicações"
+                  icon={<FileText className="h-8 w-8 text-green-500" />}
+                  badges={["PDF"]}
+                  onDownload={() => handleDownload("Status das Indicações")}
+                />
+                
+                {/* Relatório de Indicações por Região */}
+                <ReportCard 
+                  title="Indicações por Região" 
+                  description="Distribuição geográfica das suas indicações"
+                  icon={<FileText className="h-8 w-8 text-purple-500" />}
+                  badges={["PDF"]}
+                  onDownload={() => handleDownload("Indicações por Região")}
+                />
+              </div>
+            </TabsContent>
+            
+            <TabsContent value="comissoes" className="space-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+                {/* Relatório de Comissões */}
+                <ReportCard 
+                  title="Extrato de Comissões" 
+                  description="Detalhamento de todas as comissões recebidas"
+                  icon={<FileText className="h-8 w-8 text-green-500" />}
+                  badges={["PDF"]}
+                  onDownload={() => handleDownload("Extrato de Comissões")}
+                />
+                
+                {/* Relatório de Previsão de Comissões */}
+                <ReportCard 
+                  title="Previsão de Comissões" 
+                  description="Estimativa de comissões futuras baseadas em indicações em andamento"
+                  icon={<FileText className="h-8 w-8 text-amber-500" />}
+                  badges={["PDF"]}
+                  onDownload={() => handleDownload("Previsão de Comissões")}
+                />
+                
+                {/* Relatório Fiscal Anual */}
+                <ReportCard 
+                  title="Relatório Fiscal Anual" 
+                  description="Resumo anual para fins de declaração de imposto de renda"
+                  icon={<FileText className="h-8 w-8 text-red-500" />}
+                  badges={["PDF"]}
+                  onDownload={() => handleDownload("Relatório Fiscal Anual")}
+                />
+              </div>
+            </TabsContent>
+            
+            <TabsContent value="desempenho" className="space-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+                {/* Relatório de Desempenho */}
+                <ReportCard 
+                  title="Desempenho Geral" 
+                  description="Visão geral do seu desempenho como indicador"
+                  icon={<FileText className="h-8 w-8 text-indigo-500" />}
+                  badges={["PDF"]}
+                  onDownload={() => handleDownload("Desempenho Geral")}
+                />
+                
+                {/* Relatório de Conversão */}
+                <ReportCard 
+                  title="Taxa de Conversão" 
+                  description="Análise da sua taxa de conversão de indicações em contratos"
+                  icon={<FileText className="h-8 w-8 text-cyan-500" />}
+                  badges={["PDF"]}
+                  onDownload={() => handleDownload("Taxa de Conversão")}
+                />
+                
+                {/* Relatório de Comparativo */}
+                <ReportCard 
+                  title="Comparativo Trimestral" 
+                  description="Comparação do seu desempenho atual com trimestres anteriores"
+                  icon={<FileText className="h-8 w-8 text-orange-500" />}
+                  badges={["PDF"]}
+                  onDownload={() => handleDownload("Comparativo Trimestral")}
+                />
+              </div>
+            </TabsContent>
+          </Tabs>
+        </main>
       </div>
     </div>
   );
 };
 
-// Reports table component
-const ReportsTable = ({ 
-  reports, 
-  onDownload 
-}: { 
-  reports: typeof reportsList,
-  onDownload: (id: string, title: string) => void
-}) => {
+// Componente para renderização do card de relatório
+interface ReportCardProps {
+  title: string;
+  description: string;
+  icon: React.ReactNode;
+  badges: string[];
+  onDownload: () => void;
+}
+
+const ReportCard = ({ title, description, icon, badges, onDownload }: ReportCardProps) => {
   return (
-    <div className="border rounded-md">
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead>Título</TableHead>
-            <TableHead>Data</TableHead>
-            <TableHead>Categoria</TableHead>
-            <TableHead className="text-right">Ação</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {reports.length > 0 ? (
-            reports.map((report) => (
-              <TableRow key={report.id}>
-                <TableCell className="font-medium">{report.title}</TableCell>
-                <TableCell>{report.date}</TableCell>
-                <TableCell>
-                  <div className={`inline-block px-2 py-1 rounded-full text-xs font-medium ${
-                    report.type === 'comissoes' ? 'bg-blue-100 text-blue-800' :
-                    report.type === 'indicacoes' ? 'bg-green-100 text-green-800' :
-                    'bg-orange-100 text-orange-800'
-                  }`}>
-                    {report.type === 'comissoes' ? 'Comissões' :
-                     report.type === 'indicacoes' ? 'Indicações' :
-                     'Performance'}
-                  </div>
-                </TableCell>
-                <TableCell className="text-right">
-                  <Button
-                    size="sm"
-                    onClick={() => onDownload(report.id, report.title)}
-                    className="bg-brand-blue hover:bg-brand-blue/80"
-                  >
-                    <ArrowDown className="h-4 w-4 mr-1" />
-                    Baixar PDF
-                  </Button>
-                </TableCell>
-              </TableRow>
-            ))
-          ) : (
-            <TableRow>
-              <TableCell colSpan={4} className="text-center py-6 text-gray-500">
-                Nenhum relatório encontrado
-              </TableCell>
-            </TableRow>
-          )}
-        </TableBody>
-      </Table>
-    </div>
+    <Card className="overflow-hidden">
+      <CardHeader className="bg-gray-50">
+        <div className="flex items-start justify-between">
+          <div className="flex items-center gap-4">
+            {icon}
+            <div>
+              <CardTitle className="text-lg">{title}</CardTitle>
+            </div>
+          </div>
+          <div className="flex gap-2">
+            {badges.map((badge, index) => (
+              <Badge key={index} variant="outline">{badge}</Badge>
+            ))}
+          </div>
+        </div>
+      </CardHeader>
+      <CardContent className="pt-6">
+        <CardDescription className="text-sm text-gray-600 h-12">
+          {description}
+        </CardDescription>
+      </CardContent>
+      <CardFooter className="border-t bg-gray-50 flex justify-end">
+        <Button onClick={onDownload} variant="default" size="sm" className="gap-2">
+          <Download size={16} />
+          <span>Baixar</span>
+        </Button>
+      </CardFooter>
+    </Card>
   );
 };
 

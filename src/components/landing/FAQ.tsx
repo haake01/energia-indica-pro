@@ -9,6 +9,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { BookOpen } from "lucide-react";
 
 const programaFaqs = [
   {
@@ -159,12 +160,23 @@ const FAQ = () => {
             </TabsContent>
           </Tabs>
           
-          <div className="mt-8 text-center">
-            <Link to="/perguntas-frequentes">
-              <Button variant="outline" className="border-brand-lime bg-brand-lime text-white hover:bg-brand-lime/80 rounded-full">
-                Ver todas as perguntas
-              </Button>
-            </Link>
+          <div className="mt-8 flex flex-col md:flex-row items-center justify-center gap-4">
+            <div className="flex items-center gap-2 text-brand-blue">
+              <BookOpen size={20} />
+              <span>Quer conhecer todos os detalhes?</span>
+            </div>
+            <div className="flex gap-4">
+              <Link to="/perguntas-frequentes">
+                <Button variant="outline" className="border-brand-lime bg-brand-lime text-white hover:bg-brand-lime/80 rounded-full">
+                  Ver todas as perguntas
+                </Button>
+              </Link>
+              <Link to="/regulamento">
+                <Button variant="outline" className="border-brand-orange text-brand-orange hover:bg-brand-orange hover:text-white rounded-full">
+                  Ver regulamento
+                </Button>
+              </Link>
+            </div>
           </div>
         </div>
       </div>
