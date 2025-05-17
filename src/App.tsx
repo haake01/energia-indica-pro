@@ -15,6 +15,7 @@ import IndicadorPainelPage from "./pages/IndicadorPainelPage";
 import CadastroLeadPage from "./pages/CadastroLeadPage";
 import ListaLeadsPage from "./pages/ListaLeadsPage";
 import FAQPage from "./pages/FAQPage";
+import GestorPainelPage from "./pages/GestorPainelPage";
 
 // Create the query client outside of the component
 const queryClient = new QueryClient();
@@ -34,6 +35,7 @@ const App = () => {
               <Route path="/indicador/painel" element={<IndicadorPainelPage />} />
               <Route path="/indicador/cadastrar-lead" element={<CadastroLeadPage />} />
               <Route path="/indicador/leads" element={<ListaLeadsPage />} />
+              <Route path="/gestor/painel" element={<GestorPainelPage />} />
               <Route path="/perguntas-frequentes" element={<FAQPage />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
