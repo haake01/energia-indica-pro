@@ -3,7 +3,7 @@ import React from "react";
 import { BarChart3, Users, Calendar, Check, Clock, AlertCircle } from "lucide-react";
 import DashboardHeader from "@/components/indicador/DashboardHeader";
 import DashboardSidebar from "@/components/indicador/DashboardSidebar";
-import IndicacaoCard from "@/components/indicador/IndicacaoCard";
+import IndicacaoCard, { Indicacao } from "@/components/indicador/IndicacaoCard";
 import EstatisticasCard from "@/components/indicador/EstatisticasCard";
 import NovaIndicacaoButton from "@/components/indicador/NovaIndicacaoButton";
 
@@ -17,7 +17,7 @@ const IndicadorPainelPage = () => {
     totalGanho: 3600.0,
   };
 
-  const indicacoes = [
+  const indicacoes: Indicacao[] = [
     {
       id: "1",
       nome: "João Silva",
@@ -54,7 +54,7 @@ const IndicadorPainelPage = () => {
       id: "5",
       nome: "Roberto Alves",
       valorFatura: 750.0,
-      status: "aprovada",
+      status: "aprovada" as const,
       dataIndicacao: "2023-05-18",
       comissao: 500.0,
     },
@@ -62,7 +62,7 @@ const IndicadorPainelPage = () => {
       id: "6",
       nome: "Juliana Costa",
       valorFatura: 420.0,
-      status: "pendente",
+      status: "pendente" as const,
       dataIndicacao: "2023-05-20",
       comissao: 280.0,
     },
