@@ -1,3 +1,4 @@
+
 import React from "react";
 import {
   Accordion,
@@ -50,10 +51,10 @@ const comissoesFaqs = [
   },
   {
     question: "Quem me pagará as Comissões?",
-    answer: "A +Energia como afiliada "LEX" da ALEXANDRIA ENERGIA é a única responsável por este Programa de Indicações, e portanto, do pagamento de Comissões pelas INDICAÇÕES CONVERTIDAS."
+    answer: "A +Energia como afiliada \"LEX\" da ALEXANDRIA ENERGIA é a única responsável por este Programa de Indicações, e portanto, do pagamento de Comissões pelas INDICAÇÕES CONVERTIDAS."
   },
   {
-    question: "Como s��o calculadas as comissões?",
+    question: "Como são calculadas as comissões?",
     answer: "As comissões são calculadas aplicando-se 10% sobre o valor da parcela de energia da fatura apresentada pelo INDICADO (excluídos todos os itens que não sejam ENERGIA) no momento da geração da proposta comercial pela Alexandria, uma única vez. Não existe recorrência."
   },
   {
@@ -69,7 +70,7 @@ const beneficiosFaqs = [
   },
   {
     question: "É necessário fazer alguma alteração na instalação elétrica?",
-    answer: "Não é necessário fazer nenhuma alteração na instalação elétrica ou investimento. O processo é 100% "sistêmico", similar a portabilidade de telefonia celular ou empréstimos bancários. A injeção dos créditos de energia ocorre em até 120 dias da assinatura do contrato, lembrando que este prazo é estabelecido pela ANEEL."
+    answer: "Não é necessário fazer nenhuma alteração na instalação elétrica ou investimento. O processo é 100% \"sistêmico\", similar a portabilidade de telefonia celular ou empréstimos bancários. A injeção dos créditos de energia ocorre em até 120 dias da assinatura do contrato, lembrando que este prazo é estabelecido pela ANEEL."
   },
   {
     question: "Isso é legal? Está regulamentado?",
