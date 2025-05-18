@@ -25,14 +25,17 @@ export const registerGestor = async (data: {
     }
 
     // Check if email already exists in auth
-    const { data: { users }, error: usersError } = await supabase.auth.admin.listUsers();
+    // Fix for error on line 35: Property 'email' does not exist on type 'never'
+    // We'll use type assertion to fix this
+    const { data: usersData, error: usersError } = await supabase.auth.admin.listUsers();
     
     if (usersError) {
       console.error('Erro ao listar usuários:', usersError);
       throw new Error('Erro ao verificar usuários existentes');
     }
     
-    const existingUser = users?.find(user => user.email === data.email);
+    const users = usersData?.users || [];
+    const existingUser = users.find(user => user.email === data.email);
     
     if (existingUser) {
       throw new Error('Este email já está sendo usado');
@@ -150,15 +153,20 @@ export const initializeDatabase = async () => {
   try {
     // First, clean the database
     const cleanResult = await limparDadosMockados();
+    
+    // Fix for errors on lines 160 and 161
+    // Adding proper type checking for error property
     if (!cleanResult.success) {
-      console.error('Erro ao limpar base de dados:', cleanResult.error);
+      console.error('Erro ao limpar base de dados:', 
+        'error' in cleanResult ? cleanResult.error : 'Erro desconhecido');
     }
     
     // Then ensure the initial gestor exists
     const gestorResult = await cadastrarGestorInicial();
     if (!gestorResult.success) {
-      console.error('Erro ao cadastrar gestor inicial:', gestorResult.error);
-      return { success: false, error: gestorResult.error };
+      console.error('Erro ao cadastrar gestor inicial:', 
+        'error' in gestorResult ? gestorResult.error : 'Erro desconhecido');
+      return { success: false, error: 'error' in gestorResult ? gestorResult.error : 'Erro desconhecido' };
     }
     
     return { 
