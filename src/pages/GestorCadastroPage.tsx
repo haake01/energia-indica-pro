@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { supabase } from "@/lib/supabase";
-import { createGestor } from "@/lib/supabase-auth";
+import { registerGestor } from "@/lib/supabase-auth";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
@@ -53,10 +53,15 @@ const GestorCadastroPage = () => {
         nome: "KLEBER MARKUS HAAKE", 
         email: "kleberhaakedigital@gmail.com", 
         whatsapp: "11954707777",
-        password: "Gestor@123"
+        password: "Gestor@123",
+        cargo: "Administrador",
+        nivel_acesso: "admin",
       };
       
-      const result = await createGestor(defaultGestor);
+      const result = await registerGestor({
+        ...defaultGestor,
+        telefone: defaultGestor.whatsapp, // Adaptando o campo para a API
+      });
       
       if (result.success) {
         console.log("Gestor padrão criado com sucesso!");
@@ -72,7 +77,16 @@ const GestorCadastroPage = () => {
     setIsLoading(true);
     
     try {
-      const result = await createGestor(values);
+      const gestorData = {
+        nome: values.nome,
+        email: values.email,
+        telefone: values.whatsapp,
+        cargo: "Gestor",
+        nivel_acesso: "gestor",
+        password: values.password,
+      };
+      
+      const result = await registerGestor(gestorData);
       
       if (result.success) {
         toast({
