@@ -1,7 +1,7 @@
 
 import { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { handleAuthCallback } from '@/lib/supabase-auth';
+import { handleAuthCallback } from '@/lib/auth';
 import { toast } from '@/hooks/use-toast';
 
 const AuthCallbackPage = () => {

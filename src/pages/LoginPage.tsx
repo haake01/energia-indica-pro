@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -17,7 +16,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { toast } from "@/hooks/use-toast";
-import { loginUser } from "@/lib/supabase-auth";
+import { loginUser, loginWithGoogle } from "@/lib/auth";
 import WhatsAppButton from "@/components/ui/whatsapp-button";
 
 const formSchema = z.object({
