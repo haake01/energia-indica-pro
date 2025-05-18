@@ -1,6 +1,6 @@
 
-import React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { 
   BarChart3, 
   Users, 
@@ -8,7 +8,9 @@ import {
   LogOut, 
   Home,
   Plus,
-  ShieldCheck
+  ShieldCheck,
+  Menu,
+  X
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { logoutUser } from "@/lib/supabase-auth";
@@ -16,6 +18,8 @@ import { toast } from "@/hooks/use-toast";
 
 const DashboardSidebar = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const [isOpen, setIsOpen] = useState(false);
   
   const handleLogout = async () => {
     const result = await logoutUser();
@@ -29,46 +33,106 @@ const DashboardSidebar = () => {
       });
     }
   };
+
+  const toggleSidebar = () => {
+    setIsOpen(!isOpen);
+  };
   
   return (
-    <aside className="w-20 lg:w-64 bg-brand-blue text-white min-h-screen flex flex-col">
-      <div className="p-4 flex justify-center lg:justify-start">
-        <Link to="/" className="text-xl font-bold">
-          <span className="hidden lg:block">LEX+ENERGIA</span>
-          <span className="block lg:hidden text-2xl">LEX</span>
-        </Link>
-      </div>
+    <>
+      {/* Mobile menu button */}
+      <button 
+        onClick={toggleSidebar}
+        className="lg:hidden fixed top-4 left-4 z-50 p-2 rounded-md bg-brand-blue text-white"
+        aria-label="Toggle menu"
+      >
+        {isOpen ? <X size={24} /> : <Menu size={24} />}
+      </button>
       
-      <div className="px-2 py-6 flex-1">
-        <div className="space-y-2">
-          <SidebarLink icon={Home} text="Dashboard" to="/indicador/painel" active />
-          <SidebarLink icon={Users} text="Meus Indicados" to="/indicador/leads" />
-          <SidebarLink icon={BarChart3} text="Relatórios" to="/indicador/relatorios" />
-          <SidebarLink icon={Settings} text="Meu Perfil" to="/indicador/perfil" />
-          <SidebarLink icon={ShieldCheck} text="Área de Gestor" to="/gestor/painel" />
-        </div>
-        
-        <div className="mt-6 lg:px-2">
-          <Link to="/indicador/cadastrar-lead">
-            <Button className="w-full lg:justify-start bg-brand-orange hover:bg-brand-orange/90">
-              <Plus className="w-5 h-5 lg:mr-2" />
-              <span className="hidden lg:block">Nova Indicação</span>
-            </Button>
+      <aside 
+        className={`${
+          isOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
+        } fixed lg:static top-0 left-0 z-40 w-64 min-h-screen bg-brand-blue text-white transition-transform duration-300 ease-in-out lg:w-20 xl:w-64`}
+      >
+        <div className="p-4 flex justify-center lg:justify-start">
+          <Link to="/" className="text-xl font-bold">
+            <span className="hidden xl:block">Lex<span className="text-brand-orange">+ENERGIA</span></span>
+            <span className="block xl:hidden text-2xl">Lex</span>
           </Link>
         </div>
-      </div>
+        
+        <div className="px-2 py-6 flex-1">
+          <div className="space-y-2">
+            <SidebarLink 
+              icon={Home} 
+              text="Dashboard" 
+              to="/indicador/painel" 
+              active={location.pathname === '/indicador/painel'} 
+              onClick={() => setIsOpen(false)}
+            />
+            <SidebarLink 
+              icon={Users} 
+              text="Meus Indicados" 
+              to="/indicador/leads" 
+              active={location.pathname === '/indicador/leads'} 
+              onClick={() => setIsOpen(false)}
+            />
+            <SidebarLink 
+              icon={BarChart3} 
+              text="Relatórios" 
+              to="/indicador/relatorios" 
+              active={location.pathname === '/indicador/relatorios'} 
+              onClick={() => setIsOpen(false)}
+            />
+            <SidebarLink 
+              icon={Settings} 
+              text="Meu Perfil" 
+              to="/indicador/perfil" 
+              active={location.pathname === '/indicador/perfil'} 
+              onClick={() => setIsOpen(false)}
+            />
+            <SidebarLink 
+              icon={ShieldCheck} 
+              text="Área de Gestor" 
+              to="/gestor/painel" 
+              active={location.pathname.startsWith('/gestor')} 
+              onClick={() => setIsOpen(false)}
+            />
+          </div>
+          
+          <div className="mt-6 lg:px-2">
+            <Link to="/indicador/cadastrar-lead" onClick={() => setIsOpen(false)}>
+              <Button className="w-full lg:justify-start bg-brand-orange hover:bg-brand-orange/90">
+                <Plus className="w-5 h-5 lg:mr-2" />
+                <span className="hidden xl:block">Nova Indicação</span>
+              </Button>
+            </Link>
+          </div>
+        </div>
+        
+        <div className="p-4 border-t border-brand-blue-light">
+          <Button 
+            variant="ghost" 
+            className="w-full justify-center lg:justify-start hover:bg-brand-blue-light text-white"
+            onClick={() => {
+              handleLogout();
+              setIsOpen(false);
+            }}
+          >
+            <LogOut className="w-5 h-5 lg:mr-2" />
+            <span className="hidden xl:block">Sair</span>
+          </Button>
+        </div>
+      </aside>
       
-      <div className="p-4 border-t border-brand-blue-light">
-        <Button 
-          variant="ghost" 
-          className="w-full justify-center lg:justify-start hover:bg-brand-blue-light text-white"
-          onClick={handleLogout}
-        >
-          <LogOut className="w-5 h-5 lg:mr-2" />
-          <span className="hidden lg:block">Sair</span>
-        </Button>
-      </div>
-    </aside>
+      {/* Overlay for mobile */}
+      {isOpen && (
+        <div 
+          className="fixed inset-0 bg-black bg-opacity-50 z-30 lg:hidden"
+          onClick={() => setIsOpen(false)}
+        ></div>
+      )}
+    </>
   );
 };
 
@@ -76,16 +140,19 @@ const SidebarLink = ({
   icon: Icon, 
   text, 
   to, 
-  active = false 
+  active = false,
+  onClick 
 }: { 
   icon: React.ElementType; 
   text: string; 
   to: string; 
   active?: boolean;
+  onClick?: () => void;
 }) => {
   return (
     <Link 
       to={to} 
+      onClick={onClick}
       className={`flex items-center p-2 rounded-lg transition-colors ${
         active 
           ? 'bg-white/10 text-white' 
@@ -93,7 +160,7 @@ const SidebarLink = ({
       }`}
     >
       <Icon className="w-5 h-5 lg:mr-3" />
-      <span className="hidden lg:block">{text}</span>
+      <span className="hidden xl:block">{text}</span>
     </Link>
   );
 };

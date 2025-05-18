@@ -1,15 +1,26 @@
 
-import React from "react";
+import React, { useState } from "react";
 import { Lead } from "@/types/lead";
-import { User, Building, Calendar, Phone, Mail } from "lucide-react";
+import { User, Building, Calendar, Phone, Mail, FileText, MoreHorizontal } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { useLeadList } from "@/hooks/useLeadList";
 
 interface LeadListItemProps {
   lead: Lead;
 }
 
 const LeadListItem: React.FC<LeadListItemProps> = ({ lead }) => {
+  const [showFatura, setShowFatura] = useState(false);
+  const { updateLeadStatus, userRole } = useLeadList();
+  
   // Função para formatar data
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
@@ -61,6 +72,13 @@ const LeadListItem: React.FC<LeadListItemProps> = ({ lead }) => {
         return "Consultoria Empresarial";
       default:
         return interesse;
+    }
+  };
+  
+  // Função para atualizar status
+  const handleStatusUpdate = async (newStatus: string) => {
+    if (lead.id) {
+      await updateLeadStatus(lead.id, newStatus);
     }
   };
 
@@ -118,13 +136,76 @@ const LeadListItem: React.FC<LeadListItemProps> = ({ lead }) => {
       )}
 
       <div className="flex justify-end gap-2">
-        <Button size="sm" variant="outline">
-          Detalhes
-        </Button>
-        <Button size="sm" className="bg-brand-orange hover:bg-brand-orange/90">
+        {lead.faturaUrl && (
+          <Button 
+            size="sm" 
+            variant="outline" 
+            onClick={() => setShowFatura(true)}
+            className="flex items-center gap-1"
+          >
+            <FileText className="h-4 w-4" />
+            Ver Fatura
+          </Button>
+        )}
+        
+        {userRole === 'gestor' && (
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button size="sm" variant="outline" className="flex items-center gap-1">
+                <MoreHorizontal className="h-4 w-4" />
+                Atualizar Status
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem onClick={() => handleStatusUpdate("novo")}>
+                Novo
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => handleStatusUpdate("contatado")}>
+                Contatado
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => handleStatusUpdate("convertido")}>
+                Convertido
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => handleStatusUpdate("perdido")}>
+                Perdido
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        )}
+        
+        <Button 
+          size="sm" 
+          className="bg-brand-orange hover:bg-brand-orange/90"
+        >
           Contatar
         </Button>
       </div>
+      
+      {/* Fatura Viewer Dialog */}
+      {lead.faturaUrl && (
+        <Dialog open={showFatura} onOpenChange={setShowFatura}>
+          <DialogContent className="max-w-3xl">
+            <DialogHeader>
+              <DialogTitle>Fatura de {lead.tipoPessoa === "pf" ? lead.nome : lead.razaoSocial}</DialogTitle>
+            </DialogHeader>
+            <div className="mt-4">
+              {lead.faturaUrl.endsWith('.pdf') ? (
+                <iframe 
+                  src={lead.faturaUrl} 
+                  className="w-full h-[70vh]"
+                  title="Visualização da fatura"
+                />
+              ) : (
+                <img 
+                  src={lead.faturaUrl} 
+                  alt="Fatura" 
+                  className="max-w-full max-h-[70vh] mx-auto"
+                />
+              )}
+            </div>
+          </DialogContent>
+        </Dialog>
+      )}
     </div>
   );
 };

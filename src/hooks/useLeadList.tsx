@@ -1,7 +1,8 @@
 
 import { useState, useEffect, useMemo } from "react";
 import { Lead, LeadFilter } from "@/types/lead";
-import { mockLeads } from "@/data/mockLeads";
+import { supabase } from "@/lib/supabase";
+import { toast } from "@/hooks/use-toast";
 
 export const useLeadList = () => {
   const [leads, setLeads] = useState<Lead[]>([]);
@@ -11,65 +12,104 @@ export const useLeadList = () => {
     interesse: "todos",
     status: "todos",
   });
+  const [userRole, setUserRole] = useState<"indicador" | "gestor" | null>(null);
+  const [userId, setUserId] = useState<string | null>(null);
 
-  // Simula uma chamada API para buscar leads
+  // Fetch user session and determine role
   useEffect(() => {
-    const fetchLeads = () => {
-      setTimeout(() => {
-        setLeads(mockLeads);
+    const fetchUserSession = async () => {
+      const { data } = await supabase.auth.getSession();
+      
+      if (data.session) {
+        const userId = data.session.user.id;
+        setUserId(userId);
+        
+        // Check if user is a gestor
+        const { data: gestorData } = await supabase
+          .from('gestores')
+          .select('id')
+          .eq('id', userId)
+          .single();
+          
+        if (gestorData) {
+          setUserRole('gestor');
+        } else {
+          setUserRole('indicador');
+        }
+      }
+    };
+    
+    fetchUserSession();
+  }, []);
+
+  // Fetch leads from Supabase
+  useEffect(() => {
+    const fetchLeads = async () => {
+      setIsLoading(true);
+      
+      try {
+        if (!userId || !userRole) return;
+        
+        let query = supabase.from('leads').select('*');
+        
+        // If user is an indicador, only show their leads
+        if (userRole === 'indicador') {
+          query = query.eq('indicadorId', userId);
+        }
+        
+        // Apply filters from state if needed
+        if (filters.tipoPessoa && filters.tipoPessoa !== "todos") {
+          query = query.eq('tipoPessoa', filters.tipoPessoa);
+        }
+        
+        if (filters.interesse && filters.interesse !== "todos") {
+          query = query.eq('interesse', filters.interesse);
+        }
+        
+        if (filters.status && filters.status !== "todos") {
+          query = query.eq('status', filters.status);
+        }
+        
+        if (filters.dataInicio) {
+          query = query.gte('dataCadastro', filters.dataInicio);
+        }
+        
+        if (filters.dataFim) {
+          const endDate = new Date(filters.dataFim);
+          endDate.setHours(23, 59, 59);
+          query = query.lte('dataCadastro', endDate.toISOString());
+        }
+        
+        if (filters.termo && filters.termo.trim() !== "") {
+          const termo = filters.termo.toLowerCase().trim();
+          query = query.or(`nome.ilike.%${termo}%,razaoSocial.ilike.%${termo}%,email.ilike.%${termo}%`);
+        }
+        
+        // Order by date descending (newest first)
+        query = query.order('dataCadastro', { ascending: false });
+        
+        const { data, error } = await query;
+        
+        if (error) {
+          throw error;
+        }
+        
+        setLeads(data || []);
+      } catch (error: any) {
+        console.error("Erro ao buscar leads:", error);
+        toast({
+          title: "Erro ao carregar leads",
+          description: error.message || "Não foi possível carregar seus leads. Tente novamente mais tarde.",
+          variant: "destructive",
+        });
+        setLeads([]);
+      } finally {
         setIsLoading(false);
-      }, 800);
+      }
     };
 
     fetchLeads();
-  }, []);
-
-  // Filtra os leads com base nos filtros atuais
-  const filteredLeads = useMemo(() => {
-    return leads.filter((lead) => {
-      // Filtro por tipo de pessoa
-      if (filters.tipoPessoa && filters.tipoPessoa !== "todos") {
-        if (lead.tipoPessoa !== filters.tipoPessoa) return false;
-      }
-
-      // Filtro por interesse
-      if (filters.interesse && filters.interesse !== "todos") {
-        if (lead.interesse !== filters.interesse) return false;
-      }
-
-      // Filtro por status
-      if (filters.status && filters.status !== "todos") {
-        if (lead.status !== filters.status) return false;
-      }
-
-      // Filtro por data inicial
-      if (filters.dataInicio) {
-        const dataInicio = new Date(filters.dataInicio);
-        const dataCadastro = new Date(lead.dataCadastro);
-        if (dataCadastro < dataInicio) return false;
-      }
-
-      // Filtro por data final
-      if (filters.dataFim) {
-        const dataFim = new Date(filters.dataFim);
-        dataFim.setHours(23, 59, 59); // Final do dia
-        const dataCadastro = new Date(lead.dataCadastro);
-        if (dataCadastro > dataFim) return false;
-      }
-
-      // Filtro por termo de busca
-      if (filters.termo && filters.termo.trim() !== "") {
-        const termo = filters.termo.toLowerCase().trim();
-        const leadString = `${lead.nome || ""} ${lead.razaoSocial || ""} ${
-          lead.nomeFantasia || ""
-        } ${lead.email || ""} ${lead.telefone || ""}`.toLowerCase();
-        
-        if (!leadString.includes(termo)) return false;
-      }
-
-      return true;
-    });
-  }, [leads, filters]);
+  }, [userId, userRole, filters]);
 
   // Função para atualizar os filtros
   const updateFilters = (newFilters: LeadFilter) => {
@@ -85,11 +125,58 @@ export const useLeadList = () => {
     });
   };
 
+  // Função para atualizar status do lead (apenas para gestores)
+  const updateLeadStatus = async (leadId: string, newStatus: string) => {
+    if (userRole !== 'gestor') {
+      toast({
+        title: "Permissão negada",
+        description: "Apenas gestores podem atualizar o status dos leads.",
+        variant: "destructive",
+      });
+      return false;
+    }
+    
+    try {
+      const { error } = await supabase
+        .from('leads')
+        .update({ status: newStatus })
+        .eq('id', leadId);
+        
+      if (error) {
+        throw error;
+      }
+      
+      // Update local state
+      setLeads(prev => 
+        prev.map(lead => 
+          lead.id === leadId ? { ...lead, status: newStatus as any } : lead
+        )
+      );
+      
+      toast({
+        title: "Status atualizado",
+        description: `O status do lead foi atualizado para ${newStatus}.`,
+      });
+      
+      return true;
+    } catch (error: any) {
+      console.error("Erro ao atualizar status:", error);
+      toast({
+        title: "Erro ao atualizar status",
+        description: error.message || "Não foi possível atualizar o status do lead.",
+        variant: "destructive",
+      });
+      return false;
+    }
+  };
+
   return {
-    leads: filteredLeads,
+    leads,
     isLoading,
     filters,
     updateFilters,
     resetFilters,
+    updateLeadStatus,
+    userRole
   };
 };

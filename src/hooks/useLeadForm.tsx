@@ -5,10 +5,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { formSchema, FormValues } from "@/schemas/leadFormSchema";
 import { toast } from "@/hooks/use-toast";
 import { supabase } from "@/lib/supabase";
+import { useNavigate } from "react-router-dom";
 
 export const useLeadForm = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [tipoPessoa, setTipoPessoa] = useState<"pf" | "pj">("pf");
+  const navigate = useNavigate();
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
@@ -57,21 +59,35 @@ export const useLeadForm = () => {
     try {
       let faturaUrl = null;
       
-      // Upload fatura se existir
+      // Get current user
+      const { data: userSession } = await supabase.auth.getSession();
+      
+      if (!userSession.session) {
+        throw new Error("Usuário não está autenticado");
+      }
+      
+      const userId = userSession.session.user.id;
+      
+      // Upload fatura if exists
       if (data.fatura) {
-        // Em um cenário real, este seria o bucket do Supabase
-        // const { data: fileData, error } = await supabase.storage
-        //  .from('faturas')
-        //  .upload(`${Date.now()}-${data.fatura.name}`, data.fatura);
+        const fileName = `${Date.now()}-${data.fatura.name}`;
+        const filePath = `leads/${userId}/${fileName}`;
         
-        // if (error) throw error;
-        // faturaUrl = fileData?.path;
+        const { data: fileData, error: uploadError } = await supabase.storage
+          .from('faturas')
+          .upload(filePath, data.fatura);
+          
+        if (uploadError) {
+          console.error('Erro ao fazer upload da fatura:', uploadError);
+          throw new Error("Erro ao fazer upload da fatura");
+        }
         
-        // Simulação de upload
-        faturaUrl = URL.createObjectURL(data.fatura);
-        
-        // Simulação de atraso de upload
-        await new Promise(resolve => setTimeout(resolve, 1000));
+        // Get public URL for the file
+        const { data: publicUrlData } = supabase.storage
+          .from('faturas')
+          .getPublicUrl(filePath);
+          
+        faturaUrl = publicUrlData.publicUrl;
       }
       
       // Dados a serem salvos
@@ -80,20 +96,22 @@ export const useLeadForm = () => {
         faturaUrl,
         dataCadastro: new Date().toISOString(),
         status: "novo",
-        indicadorId: "user-123", // Em um app real, seria o ID do usuário logado
+        indicadorId: userId,
       };
       
-      // Simulação de envio para API
-      // Em um cenário real, seria algo como:
-      // const { data: savedLead, error } = await supabase
-      //   .from('leads')
-      //   .insert([leadData])
-      //   .select();
+      // Remove the file object before inserting into the database
+      const { fatura, ...leadDataToSave } = leadData;
       
-      console.log("Dados do lead:", leadData);
-      
-      // Simulação de espera
-      await new Promise(resolve => setTimeout(resolve, 500));
+      // Insert lead into the database
+      const { data: savedLead, error: insertError } = await supabase
+        .from('leads')
+        .insert([leadDataToSave])
+        .select();
+        
+      if (insertError) {
+        console.error('Erro ao salvar lead:', insertError);
+        throw new Error("Erro ao salvar lead no banco de dados");
+      }
       
       toast({
         title: "Lead cadastrado com sucesso!",
@@ -101,11 +119,15 @@ export const useLeadForm = () => {
       });
       
       form.reset();
-    } catch (error) {
+      
+      // Redirect to leads list after successful submission
+      navigate("/indicador/leads");
+      
+    } catch (error: any) {
       console.error("Erro ao cadastrar lead:", error);
       toast({
         title: "Erro ao cadastrar lead",
-        description: "Ocorreu um erro ao processar sua solicitação.",
+        description: error.message || "Ocorreu um erro ao processar sua solicitação.",
         variant: "destructive",
       });
     } finally {
