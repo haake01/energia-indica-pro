@@ -24,6 +24,7 @@ import CookiesPage from "./pages/CookiesPage";
 import TermosPage from "./pages/TermosPage";
 import PrivacidadePage from "./pages/PrivacidadePage";
 import WhatsAppButton from "./components/ui/whatsapp-button";
+import AuthCallbackPage from "./pages/AuthCallbackPage";
 
 const App = () => {
   // Create the query client instance inside the component
@@ -51,6 +52,7 @@ const App = () => {
             <Route path="/cookies" element={<CookiesPage />} />
             <Route path="/termos" element={<TermosPage />} />
             <Route path="/privacidade" element={<PrivacidadePage />} />
+            <Route path="/auth/callback" element={<AuthCallbackPage />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>

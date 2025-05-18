@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { toast } from "@/hooks/use-toast";
+import { Eye, EyeOff } from "lucide-react";
 
 const gestorFormSchema = z.object({
   nome: z.string().min(3, { message: "O nome deve ter pelo menos 3 caracteres" }),
@@ -22,12 +23,13 @@ type GestorFormValues = z.infer<typeof gestorFormSchema>;
 
 const GestorCadastroPage = () => {
   const [isLoading, setIsLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
   const form = useForm<GestorFormValues>({
     resolver: zodResolver(gestorFormSchema),
     defaultValues: {
       nome: "KLEBER MARKUS HAAKE",
-      email: "kleberhaakedigital@gmail.com",
+      email: "kleberhaake@gmail.com",
       whatsapp: "11954707777",
       password: "Gestor@123",
     },
@@ -36,7 +38,7 @@ const GestorCadastroPage = () => {
   // Verificar se já existe um gestor e criar o default se não existir
   useEffect(() => {
     const checkDefaultGestor = async () => {
-      const { data } = await supabase.from("gestores").select("*").eq("email", "kleberhaakedigital@gmail.com");
+      const { data } = await supabase.from("gestores").select("*").eq("email", "kleberhaake@gmail.com");
       
       if (!data || data.length === 0) {
         // Criar gestor default
@@ -51,7 +53,7 @@ const GestorCadastroPage = () => {
     try {
       const defaultGestor = {
         nome: "KLEBER MARKUS HAAKE", 
-        email: "kleberhaakedigital@gmail.com", 
+        email: "kleberhaake@gmail.com", 
         whatsapp: "11954707777",
         password: "Gestor@123",
         cargo: "Administrador",
@@ -71,6 +73,10 @@ const GestorCadastroPage = () => {
     } catch (err) {
       console.error("Erro ao criar gestor padrão:", err);
     }
+  };
+
+  const toggleShowPassword = () => {
+    setShowPassword(!showPassword);
   };
 
   const onSubmit = async (values: GestorFormValues) => {
@@ -173,9 +179,24 @@ const GestorCadastroPage = () => {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Senha</FormLabel>
-                  <FormControl>
-                    <Input type="password" placeholder="Crie uma senha" {...field} />
-                  </FormControl>
+                  <div className="relative">
+                    <FormControl>
+                      <Input 
+                        type={showPassword ? "text" : "password"} 
+                        placeholder="Crie uma senha" 
+                        {...field} 
+                        className="pr-10"
+                      />
+                    </FormControl>
+                    <button
+                      type="button"
+                      onClick={toggleShowPassword}
+                      className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
+                      tabIndex={-1}
+                    >
+                      {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                    </button>
+                  </div>
                   <FormDescription>
                     Mínimo de 6 caracteres.
                   </FormDescription>
