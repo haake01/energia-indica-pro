@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -17,6 +17,8 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { toast } from "@/hooks/use-toast";
+import { loginUser } from "@/lib/supabase-auth";
+import WhatsAppButton from "@/components/ui/whatsapp-button";
 
 const formSchema = z.object({
   email: z.string().email("Digite um e-mail válido"),
@@ -27,6 +29,7 @@ type FormValues = z.infer<typeof formSchema>;
 
 const LoginPage = () => {
   const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
@@ -36,19 +39,31 @@ const LoginPage = () => {
     },
   });
 
-  const onSubmit = (data: FormValues) => {
+  const onSubmit = async (data: FormValues) => {
     setIsLoading(true);
 
-    // Simulação de login - aqui você conectaria ao backend
-    setTimeout(() => {
-      setIsLoading(false);
+    try {
+      const result = await loginUser(data.email, data.password);
+      
+      if (result.success) {
+        // Redirecionar com base no papel do usuário
+        if (result.role === 'gestor') {
+          navigate('/gestor/painel');
+        } else {
+          navigate('/indicador/painel');
+        }
+      } else {
+        throw new Error(result.error?.message || "Erro ao realizar login");
+      }
+    } catch (error: any) {
       toast({
-        title: "Login realizado",
-        description: "Você foi autenticado com sucesso.",
+        variant: "destructive",
+        title: "Erro no login",
+        description: error.message || "Credenciais inválidas. Tente novamente.",
       });
-      // Aqui você redirecionaria para a dashboard do indicador
-      console.log("Dados de login:", data);
-    }, 1500);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -132,6 +147,8 @@ const LoginPage = () => {
           </div>
         </div>
       </div>
+      
+      <WhatsAppButton phoneNumber="11954707777" />
     </div>
   );
 };

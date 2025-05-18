@@ -23,6 +23,7 @@ import SupportPage from "./pages/SupportPage";
 import CookiesPage from "./pages/CookiesPage";
 import TermosPage from "./pages/TermosPage";
 import PrivacidadePage from "./pages/PrivacidadePage";
+import WhatsAppButton from "./components/ui/whatsapp-button";
 
 const App = () => {
   // Create the query client instance inside the component
@@ -55,6 +56,7 @@ const App = () => {
           </Routes>
           <Toaster />
           <Sonner />
+          <WhatsAppButton phoneNumber="11954707777" />
         </TooltipProvider>
       </BrowserRouter>
     </QueryClientProvider>
