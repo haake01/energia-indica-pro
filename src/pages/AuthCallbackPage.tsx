@@ -12,10 +12,12 @@ const AuthCallbackPage = () => {
   useEffect(() => {
     const processAuthCallback = async () => {
       try {
+        console.log('Processando callback de autenticação...');
         // Process the authentication callback
         const result = await handleAuthCallback();
         
         if (result.success) {
+          console.log('Autenticação bem-sucedida, role:', result.role);
           toast({
             title: 'Autenticação bem-sucedida',
             description: 'Você foi autenticado com sucesso.'

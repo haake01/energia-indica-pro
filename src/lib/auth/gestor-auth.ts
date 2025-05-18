@@ -24,23 +24,23 @@ export const registerGestor = async (data: {
       }
     }
 
-    // Check if email already exists
-    const { data: existingUsers, error: checkError } = await supabase
-      .from('auth.users')
-      .select('email')
-      .eq('email', data.email)
-      .limit(1);
-
-    if (checkError) {
-      console.error('Erro ao verificar usuário existente:', checkError);
-      throw new Error(checkError.message);
+    // Check if email already exists in auth
+    const { data: { users }, error: usersError } = await supabase.auth.admin.listUsers();
+    
+    if (usersError) {
+      console.error('Erro ao listar usuários:', usersError);
+      throw new Error('Erro ao verificar usuários existentes');
     }
-
-    if (existingUsers && existingUsers.length > 0) {
+    
+    const existingUser = users?.find(user => user.email === data.email);
+    
+    if (existingUser) {
       throw new Error('Este email já está sendo usado');
     }
+    
+    console.log('Criando usuário gestor:', data);
 
-    // 2. Create user in Supabase authentication
+    // Create user in Supabase authentication
     const { data: authData, error: authError } = await supabase.auth.admin.createUser({
       email: data.email,
       password: data.password,
@@ -59,7 +59,7 @@ export const registerGestor = async (data: {
       throw new Error(authError.message);
     }
 
-    // 3. Add user to "gestores" table
+    // Add user to "gestores" table
     if (authData.user) {
       const { error: profileError } = await supabase
         .from('gestores')
@@ -77,7 +77,11 @@ export const registerGestor = async (data: {
       if (profileError) {
         console.error('Erro ao criar perfil do gestor:', profileError);
         // Try to delete the created user to avoid inconsistency
-        await supabase.auth.admin.deleteUser(authData.user.id);
+        try {
+          await supabase.auth.admin.deleteUser(authData.user.id);
+        } catch (deleteError) {
+          console.error('Erro ao tentar remover usuário após falha:', deleteError);
+        }
         throw new Error('Erro ao criar perfil do gestor');
       }
     }
@@ -89,6 +93,7 @@ export const registerGestor = async (data: {
 
     return { success: true };
   } catch (error: any) {
+    console.error('Erro completo no cadastro do gestor:', error);
     toast({
       variant: "destructive",
       title: "Erro no cadastro do gestor",
@@ -111,6 +116,7 @@ export const cadastrarGestorInicial = async () => {
   };
   
   try {
+    console.log('Verificando se gestor já existe...');
     // Check if gestor already exists
     const { data: gestorExistente, error: checkError } = await supabase
       .from('gestores')
@@ -129,6 +135,7 @@ export const cadastrarGestorInicial = async () => {
       return { success: true, message: 'Gestor já cadastrado' };
     }
     
+    console.log('Cadastrando gestor inicial...');
     // If it doesn't exist, register it
     return await registerGestor(gestorInicial);
     
@@ -137,3 +144,32 @@ export const cadastrarGestorInicial = async () => {
     return { success: false, error };
   }
 };
+
+// Function to seed the database with initial gestor and clean demo data
+export const initializeDatabase = async () => {
+  try {
+    // First, clean the database
+    const cleanResult = await limparDadosMockados();
+    if (!cleanResult.success) {
+      console.error('Erro ao limpar base de dados:', cleanResult.error);
+    }
+    
+    // Then ensure the initial gestor exists
+    const gestorResult = await cadastrarGestorInicial();
+    if (!gestorResult.success) {
+      console.error('Erro ao cadastrar gestor inicial:', gestorResult.error);
+      return { success: false, error: gestorResult.error };
+    }
+    
+    return { 
+      success: true, 
+      message: 'Base de dados inicializada com sucesso!'
+    };
+  } catch (error: any) {
+    console.error('Erro ao inicializar base de dados:', error);
+    return { success: false, error };
+  }
+};
+
+// Import limparDadosMockados
+import { limparDadosMockados } from './data-management';

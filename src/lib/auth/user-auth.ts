@@ -53,8 +53,12 @@ export const registerIndicador = async (data: RegisterData) => {
 
       if (profileError) {
         console.error('Erro ao criar perfil do indicador:', profileError);
-        // Try to delete the created user to avoid inconsistency
-        await supabase.auth.admin.deleteUser(authData.user.id);
+        try {
+          // Try to delete the created user to avoid inconsistency
+          await supabase.auth.admin.deleteUser(authData.user.id);
+        } catch (deleteError) {
+          console.error('Erro ao tentar remover usuário após falha:', deleteError);
+        }
         throw new Error('Erro ao criar perfil do indicador');
       }
     }
@@ -66,6 +70,7 @@ export const registerIndicador = async (data: RegisterData) => {
 
     return { success: true };
   } catch (error: any) {
+    console.error('Erro completo no cadastro:', error);
     toast({
       variant: "destructive",
       title: "Erro no cadastro",
@@ -91,16 +96,14 @@ export const loginWithGoogle = async () => {
     });
 
     if (error) {
+      console.error('Erro no login com Google:', error);
       throw new Error(error.message);
     }
     
     // Return will be an object with URL for redirection
-    // Login process will be completed after redirection
-    return { 
-      success: true, 
-      data 
-    };
+    return { success: true, data };
   } catch (error: any) {
+    console.error('Erro no login com Google:', error);
     toast({
       variant: "destructive",
       title: "Erro no login com Google",
@@ -174,6 +177,7 @@ export const handleAuthCallback = async () => {
       user: session.user 
     };
   } catch (error: any) {
+    console.error('Erro no callback de autenticação:', error);
     toast({
       variant: "destructive",
       title: "Erro no processamento de autenticação",
@@ -193,11 +197,13 @@ export const loginUser = async (email: string, password: string) => {
     });
 
     if (error) {
+      console.error('Erro de login:', error);
       throw new Error(error.message);
     }
 
     // Check user role for correct redirection
     const role = data.user.user_metadata.role;
+    console.log('User authenticated, role:', role, 'user:', data.user);
 
     toast({
       title: "Login realizado com sucesso",
@@ -217,6 +223,25 @@ export const loginUser = async (email: string, password: string) => {
       description: error.message || "Credenciais inválidas. Tente novamente.",
     });
     
+    return { success: false, error };
+  }
+};
+
+// Function to modify user data after login
+export const updateUserProfile = async (userId: string, userData: any) => {
+  try {
+    // Update user in auth metadata
+    const { error: authError } = await supabase.auth.updateUser({
+      data: userData
+    });
+
+    if (authError) {
+      throw new Error(authError.message);
+    }
+
+    return { success: true };
+  } catch (error: any) {
+    console.error('Erro ao atualizar perfil:', error);
     return { success: false, error };
   }
 };
@@ -329,5 +354,28 @@ export const verificarAutenticacao = async () => {
   } catch (error: any) {
     console.error('Erro ao verificar autenticação:', error);
     return { autenticado: false, error };
+  }
+};
+
+// Check if email is verified
+export const verificarEmailConfirmado = async () => {
+  try {
+    const { data, error } = await supabase.auth.getUser();
+    
+    if (error) {
+      throw new Error(error.message);
+    }
+    
+    if (!data.user) {
+      return { confirmado: false };
+    }
+    
+    return { 
+      confirmado: data.user.email_confirmed_at !== null,
+      usuario: data.user 
+    };
+  } catch (error: any) {
+    console.error('Erro ao verificar confirmação de email:', error);
+    return { confirmado: false, error };
   }
 };

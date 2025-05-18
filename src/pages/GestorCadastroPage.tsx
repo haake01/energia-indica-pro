@@ -1,10 +1,11 @@
+
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { supabase } from "@/lib/supabase";
-import { registerGestor, cadastrarGestorInicial } from "@/lib/auth";
+import { registerGestor, cadastrarGestorInicial, initializeDatabase } from "@/lib/auth";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
@@ -36,43 +37,30 @@ const GestorCadastroPage = () => {
 
   // Verificar se já existe um gestor e criar o default se não existir
   useEffect(() => {
-    const checkDefaultGestor = async () => {
-      const { data } = await supabase.from("gestores").select("*").eq("email", "kleberhaake@gmail.com");
-      
-      if (!data || data.length === 0) {
-        // Criar gestor default
-        await createDefaultGestor();
+    const checkAndInitialize = async () => {
+      try {
+        setIsLoading(true);
+        console.log('Inicializando banco de dados...');
+        const result = await initializeDatabase();
+        
+        if (result.success) {
+          console.log('Banco de dados inicializado com sucesso!');
+          toast({
+            title: "Sistema inicializado",
+            description: "O gestor principal foi configurado e os dados mockados foram removidos.",
+          });
+        } else {
+          console.error('Erro ao inicializar banco de dados:', result.error);
+        }
+      } catch (error) {
+        console.error('Erro ao verificar/inicializar gestor:', error);
+      } finally {
+        setIsLoading(false);
       }
     };
     
-    checkDefaultGestor();
+    checkAndInitialize();
   }, []);
-  
-  const createDefaultGestor = async () => {
-    try {
-      const defaultGestor = {
-        nome: "KLEBER MARKUS HAAKE", 
-        email: "kleberhaake@gmail.com", 
-        whatsapp: "11954707777",
-        password: "Gestor@123",
-        cargo: "Administrador",
-        nivel_acesso: "admin",
-      };
-      
-      const result = await registerGestor({
-        ...defaultGestor,
-        telefone: defaultGestor.whatsapp, // Adaptando o campo para a API
-      });
-      
-      if (result.success) {
-        console.log("Gestor padrão criado com sucesso!");
-      } else {
-        console.error("Erro ao criar gestor padrão:", result.error);
-      }
-    } catch (err) {
-      console.error("Erro ao criar gestor padrão:", err);
-    }
-  };
 
   const toggleShowPassword = () => {
     setShowPassword(!showPassword);
