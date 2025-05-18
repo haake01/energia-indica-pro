@@ -11,6 +11,7 @@ const AudioPlayer = ({ audioUrl, autoPlay = true }: AudioPlayerProps) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
   const [hasPlayedOnce, setHasPlayedOnce] = useState(false);
+  const [audioLoaded, setAudioLoaded] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   
   // Check if this audio has played in this session
@@ -18,47 +19,58 @@ const AudioPlayer = ({ audioUrl, autoPlay = true }: AudioPlayerProps) => {
     const hasPlayed = sessionStorage.getItem('jinglePlayed') === 'true';
     setHasPlayedOnce(hasPlayed);
     
-    if (autoPlay && !hasPlayed) {
-      const playPromise = audioRef.current?.play();
+    // Create audio element
+    const audio = new Audio(audioUrl);
+    audioRef.current = audio;
+    
+    // Set up event listeners
+    audio.addEventListener('canplaythrough', () => {
+      setAudioLoaded(true);
       
-      if (playPromise !== undefined) {
-        playPromise
-          .then(() => {
-            setIsPlaying(true);
-            sessionStorage.setItem('jinglePlayed', 'true');
-          })
-          .catch(error => {
-            console.error("Audio playback prevented:", error);
-            // User interaction might be needed before playing
-          });
+      if (autoPlay && !hasPlayed) {
+        playAudio();
       }
-    }
+    });
+    
+    audio.addEventListener('ended', () => {
+      setIsPlaying(false);
+    });
     
     return () => {
       if (audioRef.current) {
         audioRef.current.pause();
+        audioRef.current.removeEventListener('canplaythrough', () => {});
+        audioRef.current.removeEventListener('ended', () => {});
       }
     };
   }, [audioUrl, autoPlay]);
   
+  const playAudio = () => {
+    if (!audioRef.current || !audioLoaded) return;
+    
+    const playPromise = audioRef.current.play();
+    
+    if (playPromise !== undefined) {
+      playPromise
+        .then(() => {
+          setIsPlaying(true);
+          sessionStorage.setItem('jinglePlayed', 'true');
+          setHasPlayedOnce(true);
+        })
+        .catch(error => {
+          console.error("Audio playback prevented:", error);
+        });
+    }
+  };
+  
   const togglePlayPause = () => {
-    if (!audioRef.current) return;
+    if (!audioRef.current || !audioLoaded) return;
     
     if (isPlaying) {
       audioRef.current.pause();
       setIsPlaying(false);
     } else {
-      audioRef.current.play()
-        .then(() => {
-          setIsPlaying(true);
-          if (!hasPlayedOnce) {
-            setHasPlayedOnce(true);
-            sessionStorage.setItem('jinglePlayed', 'true');
-          }
-        })
-        .catch(error => {
-          console.error("Audio playback prevented:", error);
-        });
+      playAudio();
     }
   };
   
@@ -71,24 +83,15 @@ const AudioPlayer = ({ audioUrl, autoPlay = true }: AudioPlayerProps) => {
   };
   
   return (
-    <>
-      <audio 
-        ref={audioRef}
-        src={audioUrl}
-        loop={false}
-        onEnded={() => setIsPlaying(false)}
-      />
-      
-      <button
-        onClick={toggleMute}
-        className={`fixed bottom-6 right-20 p-4 rounded-full shadow-lg transition-all duration-300 z-50 flex items-center justify-center ${
-          isMuted ? 'bg-red-500 text-white hover:bg-red-600' : 'bg-green-500 text-white hover:bg-green-600'
-        }`}
-        title={isMuted ? 'Unmute audio' : 'Mute audio'}
-      >
-        {isMuted ? <VolumeX size={24} /> : <Volume2 size={24} />}
-      </button>
-    </>
+    <button
+      onClick={toggleMute}
+      className={`fixed bottom-6 right-20 p-4 rounded-full shadow-lg transition-all duration-300 z-50 flex items-center justify-center ${
+        isMuted ? 'bg-red-500 text-white hover:bg-red-600' : 'bg-brand-orange text-white hover:bg-brand-orange/90'
+      }`}
+      title={isMuted ? 'Unmute audio' : 'Mute audio'}
+    >
+      {isMuted ? <VolumeX size={24} /> : <Volume2 size={24} />}
+    </button>
   );
 };
 

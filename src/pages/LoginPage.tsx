@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 
 import LoginForm from "@/components/auth/LoginForm";
-import WhatsAppButton from "@/components/ui/whatsapp-button";
 
 const LoginPage = () => {
   return (
@@ -25,8 +24,6 @@ const LoginPage = () => {
 
         <LoginForm />
       </div>
-      
-      <WhatsAppButton phoneNumber="11954707777" />
     </div>
   );
 };
