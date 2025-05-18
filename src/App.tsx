@@ -25,6 +25,7 @@ import TermosPage from "./pages/TermosPage";
 import PrivacidadePage from "./pages/PrivacidadePage";
 import WhatsAppButton from "./components/ui/whatsapp-button";
 import AuthCallbackPage from "./pages/AuthCallbackPage";
+import AudioPlayer from "./components/ui/audio-player";
 
 const App = () => {
   // Create the query client instance inside the component
@@ -59,6 +60,7 @@ const App = () => {
           <Toaster />
           <Sonner />
           <WhatsAppButton phoneNumber="11954707777" />
+          <AudioPlayer audioUrl="/indique e ganhe (1).mp3" autoPlay={true} />
         </TooltipProvider>
       </BrowserRouter>
     </QueryClientProvider>
