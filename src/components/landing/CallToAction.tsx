@@ -8,7 +8,7 @@ const CallToAction = () => {
       <div className="container px-4 md:px-6">
         <div className="text-center max-w-3xl mx-auto">
           <h2 className="text-3xl md:text-4xl font-bold mb-6">
-            Pronto para começar a ganhar com indicações?
+            PRONTO PARA COMECAR A GANHAR COM INDICAÇÕES DE QUEM QUER ECONOMIZAR DE 5% A 40% TODO MÊS?
           </h2>
           <p className="text-xl mb-8 text-white/90">
             Junte-se a centenas de indicadores que já estão lucrando com a LEX+ENERGIA.

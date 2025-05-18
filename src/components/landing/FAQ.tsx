@@ -172,7 +172,7 @@ const FAQ = () => {
                 </Button>
               </Link>
               <Link to="/regulamento">
-                <Button variant="outline" className="border-white text-white hover:bg-white/20 rounded-full">
+                <Button variant="outline" className="border-white bg-white text-brand-lime hover:bg-white/80 rounded-full">
                   Ver regulamento
                 </Button>
               </Link>
