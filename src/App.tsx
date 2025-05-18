@@ -16,9 +16,13 @@ import CadastroLeadPage from "./pages/CadastroLeadPage";
 import ListaLeadsPage from "./pages/ListaLeadsPage";
 import FAQPage from "./pages/FAQPage";
 import GestorPainelPage from "./pages/GestorPainelPage";
+import GestorCadastroPage from "./pages/GestorCadastroPage";
 import RegulamentoPage from "./pages/RegulamentoPage";
 import RelatoriosPage from "./pages/RelatoriosPage";
 import SupportPage from "./pages/SupportPage";
+import CookiesPage from "./pages/CookiesPage";
+import TermosPage from "./pages/TermosPage";
+import PrivacidadePage from "./pages/PrivacidadePage";
 
 const App = () => {
   // Create the query client instance inside the component
@@ -39,9 +43,13 @@ const App = () => {
             <Route path="/indicador/leads" element={<ListaLeadsPage />} />
             <Route path="/indicador/relatorios" element={<RelatoriosPage />} />
             <Route path="/gestor/painel" element={<GestorPainelPage />} />
+            <Route path="/gestor/cadastrar" element={<GestorCadastroPage />} />
             <Route path="/perguntas-frequentes" element={<FAQPage />} />
             <Route path="/regulamento" element={<RegulamentoPage />} />
             <Route path="/suporte" element={<SupportPage />} />
+            <Route path="/cookies" element={<CookiesPage />} />
+            <Route path="/termos" element={<TermosPage />} />
+            <Route path="/privacidade" element={<PrivacidadePage />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
