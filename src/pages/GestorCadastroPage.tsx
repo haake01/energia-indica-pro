@@ -1,93 +1,113 @@
 
-import React, { useState } from "react";
-import { zodResolver } from "@hookform/resolvers/zod";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
+import { supabase } from "@/lib/supabase";
+import { createGestor } from "@/lib/supabase-auth";
 import { Button } from "@/components/ui/button";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { toast } from "@/hooks/use-toast";
-import { registerGestor } from "@/lib/supabase-auth";
 
-// Schema for gestor registration form
-const formSchema = z.object({
-  nome: z.string().min(3, "Nome deve ter no mínimo 3 caracteres"),
-  email: z.string().email("Email inválido"),
-  telefone: z.string().min(10, "Telefone inválido"),
-  cargo: z.string().min(3, "Cargo deve ter no mínimo 3 caracteres"),
-  nivel_acesso: z.enum(["admin", "gestor", "visualizador"]),
-  password: z.string().min(8, "A senha deve ter no mínimo 8 caracteres"),
+const gestorFormSchema = z.object({
+  nome: z.string().min(3, { message: "O nome deve ter pelo menos 3 caracteres" }),
+  email: z.string().email({ message: "Email inválido" }),
+  whatsapp: z.string().min(10, { message: "Whatsapp inválido" }),
+  password: z.string().min(6, { message: "Senha deve ter pelo menos 6 caracteres" }),
 });
 
-type FormData = z.infer<typeof formSchema>;
+type GestorFormValues = z.infer<typeof gestorFormSchema>;
 
 const GestorCadastroPage = () => {
-  const [isSubmitting, setIsSubmitting] = useState(false);
-
-  // Initialize form
-  const form = useForm<FormData>({
-    resolver: zodResolver(formSchema),
+  const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
+  const form = useForm<GestorFormValues>({
+    resolver: zodResolver(gestorFormSchema),
     defaultValues: {
-      nome: "",
-      email: "",
-      telefone: "",
-      cargo: "",
-      nivel_acesso: "gestor",
-      password: "",
+      nome: "KLEBER MARKUS HAAKE",
+      email: "kleberhaakedigital@gmail.com",
+      whatsapp: "11954707777",
+      password: "Gestor@123",
     },
   });
 
-  // Form submission handler
-  const onSubmit = async (data: FormData) => {
-    setIsSubmitting(true);
+  // Verificar se já existe um gestor e criar o default se não existir
+  useEffect(() => {
+    const checkDefaultGestor = async () => {
+      const { data } = await supabase.from("gestores").select("*").eq("email", "kleberhaakedigital@gmail.com");
+      
+      if (!data || data.length === 0) {
+        // Criar gestor default
+        await createDefaultGestor();
+      }
+    };
+    
+    checkDefaultGestor();
+  }, []);
+  
+  const createDefaultGestor = async () => {
     try {
-      const result = await registerGestor({
-        nome: data.nome,
-        email: data.email,
-        telefone: data.telefone,
-        cargo: data.cargo,
-        nivel_acesso: data.nivel_acesso,
-        password: data.password,
-      });
+      const defaultGestor = {
+        nome: "KLEBER MARKUS HAAKE", 
+        email: "kleberhaakedigital@gmail.com", 
+        whatsapp: "11954707777",
+        password: "Gestor@123"
+      };
+      
+      const result = await createGestor(defaultGestor);
+      
+      if (result.success) {
+        console.log("Gestor padrão criado com sucesso!");
+      } else {
+        console.error("Erro ao criar gestor padrão:", result.error);
+      }
+    } catch (err) {
+      console.error("Erro ao criar gestor padrão:", err);
+    }
+  };
 
+  const onSubmit = async (values: GestorFormValues) => {
+    setIsLoading(true);
+    
+    try {
+      const result = await createGestor(values);
+      
       if (result.success) {
         toast({
           title: "Gestor cadastrado com sucesso!",
-          description: "O gestor já pode acessar o sistema.",
+          description: "O gestor foi adicionado ao sistema.",
         });
-        form.reset();
-      } else if (result.message) {
+        navigate("/gestor/painel");
+      } else {
         toast({
           variant: "destructive",
-          title: "Erro ao cadastrar gestor",
-          description: result.message,
-        });
-      } else if (result.error) {
-        toast({
-          variant: "destructive",
-          title: "Erro ao cadastrar gestor",
-          description: result.error.message || "Ocorreu um erro ao processar seu cadastro.",
+          title: "Erro no cadastro",
+          description: result.error?.toString() || "Ocorreu um erro ao cadastrar o gestor.",
         });
       }
     } catch (error: any) {
       toast({
         variant: "destructive",
-        title: "Erro ao cadastrar gestor",
-        description: error.message || "Ocorreu um erro ao processar seu cadastro.",
+        title: "Erro no cadastro",
+        description: error?.message || "Ocorreu um erro ao cadastrar o gestor.",
       });
     } finally {
-      setIsSubmitting(false);
+      setIsLoading(false);
     }
   };
 
   return (
-    <div className="container mx-auto py-10">
-      <h1 className="text-2xl font-bold mb-6">Cadastro de Gestor</h1>
-      
-      <div className="max-w-md mx-auto bg-white p-6 rounded-lg shadow-md">
+    <div className="min-h-screen flex items-center justify-center bg-gray-50">
+      <div className="w-full max-w-md p-8 space-y-8 bg-white rounded-lg shadow-md">
+        <div className="text-center">
+          <h1 className="text-2xl font-bold text-gray-900">Cadastro de Gestor</h1>
+          <p className="mt-2 text-gray-600">Cadastre um novo gestor para o sistema</p>
+        </div>
+
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
             <FormField
               control={form.control}
               name="nome"
@@ -101,7 +121,7 @@ const GestorCadastroPage = () => {
                 </FormItem>
               )}
             />
-            
+
             <FormField
               control={form.control}
               name="email"
@@ -109,64 +129,30 @@ const GestorCadastroPage = () => {
                 <FormItem>
                   <FormLabel>Email</FormLabel>
                   <FormControl>
-                    <Input type="email" placeholder="email@exemplo.com" {...field} />
+                    <Input type="email" placeholder="Email do gestor" {...field} />
                   </FormControl>
+                  <FormDescription>
+                    Este email será usado para login no sistema.
+                  </FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
             />
-            
+
             <FormField
               control={form.control}
-              name="telefone"
+              name="whatsapp"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Telefone</FormLabel>
+                  <FormLabel>WhatsApp</FormLabel>
                   <FormControl>
-                    <Input placeholder="(00) 00000-0000" {...field} />
+                    <Input placeholder="DDD+número, ex: 11987654321" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
-            
-            <FormField
-              control={form.control}
-              name="cargo"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Cargo</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Cargo do gestor" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            
-            <FormField
-              control={form.control}
-              name="nivel_acesso"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Nível de acesso</FormLabel>
-                  <Select onValueChange={field.onChange} defaultValue={field.value}>
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Selecione o nível de acesso" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      <SelectItem value="admin">Administrador</SelectItem>
-                      <SelectItem value="gestor">Gestor</SelectItem>
-                      <SelectItem value="visualizador">Visualizador</SelectItem>
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            
+
             <FormField
               control={form.control}
               name="password"
@@ -174,19 +160,22 @@ const GestorCadastroPage = () => {
                 <FormItem>
                   <FormLabel>Senha</FormLabel>
                   <FormControl>
-                    <Input type="password" placeholder="********" {...field} />
+                    <Input type="password" placeholder="Crie uma senha" {...field} />
                   </FormControl>
+                  <FormDescription>
+                    Mínimo de 6 caracteres.
+                  </FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
             />
-            
-            <Button 
-              type="submit" 
-              className="w-full bg-brand-blue hover:bg-brand-blue/90"
-              disabled={isSubmitting}
+
+            <Button
+              type="submit"
+              className="w-full bg-brand-blue hover:bg-brand-blue-dark"
+              disabled={isLoading}
             >
-              {isSubmitting ? "Cadastrando..." : "Cadastrar Gestor"}
+              {isLoading ? "Cadastrando..." : "Cadastrar Gestor"}
             </Button>
           </form>
         </Form>

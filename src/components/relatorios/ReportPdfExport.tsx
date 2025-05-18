@@ -3,8 +3,6 @@ import React from "react";
 import { Button } from "@/components/ui/button";
 import { Download } from "lucide-react";
 import { Lead } from "@/types/lead";
-import { jsPDF } from "jspdf";
-import "jspdf-autotable";
 import { toast } from "@/hooks/use-toast";
 
 interface ReportPdfExportProps {
@@ -13,15 +11,14 @@ interface ReportPdfExportProps {
   filters?: Record<string, any>;
 }
 
-declare module 'jspdf' {
-  interface jsPDF {
-    autoTable: (options: any) => jsPDF;
-  }
-}
-
 const ReportPdfExport: React.FC<ReportPdfExportProps> = ({ title, leads, filters }) => {
-  const exportToPdf = () => {
+  const exportToPdf = async () => {
     try {
+      // Dynamically import jsPDF and jspdf-autotable to prevent issues with SSR
+      const jsPDFModule = await import('jspdf');
+      const jsPDF = jsPDFModule.default;
+      await import('jspdf-autotable');
+      
       const doc = new jsPDF();
       
       // Add title
@@ -61,7 +58,7 @@ const ReportPdfExport: React.FC<ReportPdfExportProps> = ({ title, leads, filters
       ]);
       
       // Create the table
-      doc.autoTable({
+      (doc as any).autoTable({
         startY: filters ? 45 : 38,
         head: [['Nome/Razão Social', 'Tipo', 'Email', 'Telefone', 'Interesse', 'Status', 'Data']],
         body: tableData,
